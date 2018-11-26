@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ls.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/01 14:50:11 by knaumov           #+#    #+#             */
-/*   Updated: 2018/11/01 14:50:16 by knaumov          ###   ########.fr       */
+/*   Updated: 2018/11/26 13:14:27 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@
 # include <sys/stat.h>
 # include <sys/types.h>
 # include <uuid/uuid.h>
-# include "../libft/libft.h"
+# include "minishell.h"
 
 # define CRED  "\x1B[31m"
 # define CBLUE  "\x1B[34m"

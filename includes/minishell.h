@@ -1,35 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 13:07:42 by amelikia          #+#    #+#             */
-/*   Updated: 2018/11/26 13:14:54 by amelikia         ###   ########.fr       */
+/*   Created: 2018/11/26 13:13:24 by amelikia          #+#    #+#             */
+/*   Updated: 2018/11/26 13:15:49 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-void	begin(void)
-{
-	char	*line;
-	int		e_status;
+# include "../libft/libft.h"
 
-	e_status = 0;
-	while (1 || e_status == 1)
-	{
-		ft_printf("$ >");
-		while (get_next_line(line) > 0)
-		{
-			ft_printf("LOL %s\n", line);
-		}
-	}
-}
-
-int		main(void)
-{
-	begin();
-	return (0);
-}
+#endif
