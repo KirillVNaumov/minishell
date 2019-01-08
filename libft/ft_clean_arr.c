@@ -1,20 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_freearr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 13:13:24 by amelikia          #+#    #+#             */
-/*   Updated: 2018/11/26 13:15:49 by amelikia         ###   ########.fr       */
+/*   Created: 2018/11/26 16:00:19 by knaumov           #+#    #+#             */
+/*   Updated: 2018/11/26 18:06:34 by knaumov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include "../libft/libft.h"
+void		ft_clean_arr(char ***argv)
+{
+	int		i;
+	int		j;
 
-char	**cleaning_matrix(char ***commands);
-
-#endif
+	i = 0;
+	j = 0;
+	if (!(*argv)[i])
+		return ;
+	while ((*argv)[i])
+		i++;
+	while (j < i)
+	{
+		free((*argv)[j]);
+		j++;
+	}
+	free(*argv);
+}

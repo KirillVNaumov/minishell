@@ -6,7 +6,7 @@
 /*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/09/10 13:05:51 by knaumov           #+#    #+#             */
-/*   Updated: 2018/11/06 15:21:51 by knaumov          ###   ########.fr       */
+/*   Updated: 2019/01/07 13:14:45 by knaumov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,19 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <wchar.h>
-# include "ft_printf/ft_printf.h"
+# include "ft_printf.h"
 
+# define CLEAN "\e[1;1H\e[2J"
+# define CRED  "\x1B[31m"
+# define CBLUE  "\033[1;34m"
+# define CPINK  "\x1B[35m"
+# define CWHITE  "\x1B[39m"
+# define CBBLUE "\x1B[46m"
+# define CBYELLOW "\x1B[43m"
+# define CBBLACK "\x1B[40m"
+
+int					ft_isspace(int c);
+void				ft_memdel_arlen(void **ar);
 char				*ft_update(char *str, char *update);
 void				*ft_memset(void *b, int c, size_t len);
 char				*ft_bchar(int n, char c);
@@ -91,5 +102,8 @@ void				ft_putnbr_fd(int n, int fd);
 char				*ft_itoa_base(intmax_t value, int base);
 int					get_next_line(const int fd, char **line);
 char				*ft_strcon(char **arr, char *c);
+void				ft_clean_arr(char ***arr);
+char				**ft_create_arr(int height, int width);
+void				ft_clean_int_arr(int ***map);
 
 #endif

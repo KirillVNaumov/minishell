@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_create_arr.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/09/10 12:52:36 by knaumov           #+#    #+#             */
-/*   Updated: 2018/12/05 21:58:24 by knaumov          ###   ########.fr       */
+/*   Created: 2018/11/26 18:05:30 by knaumov           #+#    #+#             */
+/*   Updated: 2018/12/05 21:55:56 by knaumov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int					ft_atoi(const char *str)
+char	**ft_create_arr(int height, int width)
 {
-	int				i;
-	int				sign;
-	int				nbr;
+	char	**arr;
+	int		i;
 
+	arr = (char **)malloc(sizeof(char *) * (height + 1));
 	i = 0;
-	sign = 1;
-	nbr = 0;
-	if (!str[i])
-		return (0);
-	while (ft_isspace(str[i]))
-		i += 1;
-	if (str[i] == '-' || str[i] == '+')
-		if (str[i++] == '-')
-			sign = -1;
-	while (str[i] >= '0' && str[i] <= '9')
-		nbr = (nbr * 10) + (str[i++] - '0');
-	return (nbr * sign);
+	while (i < height)
+		arr[i++] = (char *)malloc(sizeof(char) * (width + 1));
+	arr[i] = NULL;
+	return (arr);
 }

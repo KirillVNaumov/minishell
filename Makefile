@@ -1,13 +1,11 @@
 
-INCLUDES = -I ./includes
+INCLUDES = -Iincludes -Ilibft
 
-SRCS = ./srcs/*
+SRCS = srcs/minishell.c srcs/cleaning_input.c
 
-UTILS = ./utils/*
+LIBFT = -L ./libft -lft
 
-LIBFT = libft/libft.a
-
-OBJ = ./obj
+OBJ		=	$(SRCS:.c=.o)
 
 EXEC = minishell
 
@@ -19,41 +17,35 @@ RED_EXTRA = \033[1;31m
 GREEN_EXTRA = \033[1;32m
 BLUE_EXTRA = \033[1;36m
 
+%.o:%.c
+			@echo "$(GREEN) - Creating $(GREEN_EXTRA)$<...$(RESET)"
+			@gcc -Wall -Wextra -Werror -c $< -o $@ $(INCLUDES) -g
+
 all: $(EXEC)
 
-$(EXEC):
-	@echo "$(GREEN)Making objects files for $(GREEN_EXTRA)$(EXEC)$(RESET)"
-	@gcc -Wall -Wextra -Werror $(SRCS) $(INCLUDES) -c
-	@echo "$(GREEN)Compiling $(GREEN_EXTRA)$(LIB_FILLLER)$(RESET)"
-	@ar rc $(LIB_FILLLER) *.o
-	@ranlib $(LIB_FILLLER)
-	@if [ ! -d "./obj" ]; then mkdir -p $(OBJ); fi
-	@echo "$(GREEN)Moving objects files for $(GREEN_EXTRA)$(LIB_FILLLER)$(GREEN) to $(OBJ)$(RESET)"
-	@mv *.o $(OBJ)
+$(EXEC): $(OBJ)
+	@make -C libft
 	@echo "$(GREEN)Compiling executable $(GREEN_EXTRA)$(EXEC)$(RESET)"
-	@gcc -Wall -Wextra -Werror $(LIB_FILLLER) $(LIBFT) $(INCLUDES) -o $(EXEC)
+	@gcc -Wall -Wextra -Werror -o $(EXEC) $(OBJ) $(INCLUDE) $(LIBFT) -g
 	@echo "$(BLUE_EXTRA)$(EXEC)$(BLUE): Complete$(RESET)"
 
 clean:
-	@if [ -d "./obj" ]; then \
-	echo "$(RED)Deleting objects for $(RED_EXTRA)$(LIB_FILLLER)$(RESET)"; \
+	@if [ -a "srcs/minishell.o" ]; then \
+	echo "$(RED)Deleting objects for $(RED_EXTRA)$(EXEC)$(RESET)"; \
 	/bin/rm -rf $(OBJ); \
 	fi
-	#@make -C libft clean
+	@make -C libft clean
 	@echo "$(BLUE_EXTRA)clean$(BLUE): Complete$(RESET)"
 
 fclean: clean
-	@if [ -a "$(LIB_FILLLER)" ]; then \
-	echo "$(RED)Deleting $(RED_EXTRA)$(LIB_FILLLER)$(RESET)"; \
-	/bin/rm -f $(LIB_FILLLER); \
-	fi
-
 	@if [ -a "$(EXEC)" ]; then \
 	echo "$(RED)Deleting executable $(RED_EXTRA)$(EXEC)$(RESET)"; \
 	/bin/rm -f $(EXEC); \
 	fi
 
-	#@make -C libft fclean
+	@make -C libft fclean
 	@echo "$(BLUE_EXTRA)fclean$(BLUE): Complete$(RESET)"
 
 re: fclean all
+
+.PHONY: clean fclean re
