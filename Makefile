@@ -1,7 +1,8 @@
 
 INCLUDES = -Iincludes -Ilibft
 
-SRCS = srcs/minishell.c srcs/cleaning_input.c
+SRCS =	srcs/minishell.c srcs/cleaning_input.c srcs/printing_info.c \
+		srcs/compare_for_commands.c srcs/error_managment.c
 
 LIBFT = -L ./libft -lft
 

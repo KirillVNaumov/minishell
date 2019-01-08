@@ -12,51 +12,19 @@
 
 #include "minishell.h"
 
-void	error(char *reason)
-{
-	ft_printf("Error: %s\n", reason);
-	exit(0);
-}
-
-void	print_env()
-{
-	extern char **environ;
-	int 		i;
-
-	i = 0;
-	while (environ[i])
-		ft_printf("%s\n", environ[i++]);
-}
-
-void	compare_to_commands(char **commands)
-{
-	int		i;
-
-	i = 0;
-	while (commands[i])
-	{
-		if (!ft_strcmp(commands[i], "exit"))
-		{
-			ft_printf("%s", CLEAN);
-			exit (0);
-		}
-		else if (!ft_strcmp(commands[i], "clear"))
-			ft_printf("%s", CLEAN);
-		else if (!ft_strcmp(commands[i], "env"))
-			print_env();
-		else
-			ft_printf("minishell: command not found: %s\n", commands[i]);
-		++i;
-	}
-}
-
 void	main_while_loop(void)
 {
-	char	*line;
-	char	**commands;
+	char			*line;
+	char			**commands;
+	t_minishell		minishell;
 
+	ft_bzero(&minishell, sizeof(t_minishell));
+	minishell.buf = NULL;
+	minishell.commands = NULL;
+	minishell.path = NULL;
 	while (1)
 	{
+		commands = NULL;
 		ft_printf("%s$>%s ", CBLUE, CWHITE);
 		get_next_line(0, &line);
 		if (ft_strstr(line, ";;") == NULL)

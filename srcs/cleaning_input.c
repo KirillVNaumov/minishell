@@ -1,61 +1,43 @@
 # include "minishell.h"
 
-int			finding_length(char *str)
+int		find_real_lenth(char *s)
 {
-	int		length;
-	int		i;
+	int len;
 
-	i = 0;
-	length = 0;
-	while (str[i] <= ' ')
-		++i;
-	while (str[i])
-	{
-		while (str[i] && str[i] > ' ')
-		{
-			++length;
-			++i;
-		}
-		if (str[i] && str[i] <= ' ')
-		{
-			++length;
-			while (str[i] && str[i] <= ' ')
-				++i;
-		}
-	}
-	if (str[i - 1] <= ' ')
-		--length;
-	return (length);
+	len = ft_strlen(s);
+	len--;
+	while (s[len] == ' ' || s[len] == '\t')
+		len--;
+	return (len);
 }
 
-char	*cleaning_string(char *str)
+char	*cleaning_string(char *s)
 {
-	char	*new;
 	int		i;
-	int		j;
-	int		length;
+	int		k;
+	int		len;
+	char	*ret;
 
 	i = 0;
-	j = 0;
-	length = finding_length(str);
-	new = (char *)malloc(sizeof(char) * finding_length(str) + 1);
-	while (str[i] <= ' ')
-		++i;
-	while (str[i])
+	k = 0;
+	while (s[i] == ' ' || s[i] == '\t')
+		i++;
+	len = find_real_lenth(s);
+	ret = (char*)malloc(sizeof(char) * (len + 1));
+	while (i <= len)
 	{
-		while (str[i] && str[i] > ' ')
-			new[j++] = str[i++];
-		if (j == length)
-			break ;
-		if (str[i] && str[i] <= ' ')
+		if (s[i] == ' ')
 		{
-			new[j++] = ' ';
-			while (str[i] && str[i] <= ' ')
-				++i;
+			ret[k] = ' ';
+			k++;
+			while (s[i] == ' ')
+				i++;
 		}
+		else
+			ret[k++] = s[i++];
 	}
-	new[j] = '\0';
-	return (new);
+	ret[k] = '\0';
+	return (ret);
 }
 
 char	**cleaning_matrix(char ***commands)
@@ -74,4 +56,18 @@ char	**cleaning_matrix(char ***commands)
     arr[i] = NULL;
 	ft_clean_arr(commands);
 	return (arr);
+}
+
+int			check_if_empty(char *str)
+{
+	int i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] > ' ')
+			return (0);
+		++i;
+	}
+	return (1);
 }
