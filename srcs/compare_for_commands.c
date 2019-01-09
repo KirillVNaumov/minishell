@@ -70,7 +70,12 @@ void	compare_to_commands(char **commands)
 		else if (!ft_strcmp(d_comm[i][0], "pwd"))
 			print_pwd();
 		else
-			print_command(d_comm[i]);
+		{
+			if (access(ft_strjoin("/bin/", d_comm[i][0]), F_OK) != -1)
+				print_command(d_comm[i]);
+			else
+				ft_printf("Error\n");
+		}
 		// else
 			// error_no_command(d_comm[i][0]);
 		++i;
