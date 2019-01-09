@@ -1,6 +1,17 @@
 # include "minishell.h"
 #include <errno.h>
 
+char	*find_in_env(char *find)
+{
+	extern char		**environ;
+	int				i;
+
+	i = 0;
+	while (ft_strncmp(environ[i], find, 4))
+		++i;
+	return (&environ[i][5]);
+}
+
 char	***divide_commands(char **commands)
 {
 	char		***d_comm;
@@ -20,20 +31,21 @@ char	***divide_commands(char **commands)
 	return (d_comm);
 }
 
-void	print_command(char **argv)
+void	print_command(char *path, char **argv, char **env)
 {
 	pid_t	pid;
-	char	**env;
+	// char	**env;
 
-	env = (char**)malloc(sizeof(char*) * 2);
-	env[0] = "PATH=/usr/local/sbin/:/usr/local/bin:\
-	/usr/sbin:/usr/bin:/sbin:/bin:/usr/games";
-	env[1] = NULL;
+	// env = (char**)malloc(sizeof(char*) * 2);
+	// env[0] = "PATH=/nfs/2018/a/amelikia/.brew/bin:/usr/local/\
+	// bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/\
+	// Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki";
+	// env[1] = NULL;
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(ft_strjoin("/bin/", argv[0]), argv, env) == -1)
-			ft_printf("minishell: premission denied: %s\n", argv[0]);
+		if (execve(path, argv, env) == -1)
+			ft_printf("minishell: premission denied: %s\n", path);
 		exit(-1);
 	}
 	else if (pid == -1)
@@ -45,15 +57,33 @@ void	print_command(char **argv)
 		wait(&pid);
 }
 
-char	*find_home(void)
+int	find_command(char **args, char **env)
 {
-	extern char		**environ;
-	int				i;
+	char	**p;
+	char	*path;
+	int		i;
 
-	i = 0;
-	while (ft_strncmp(environ[i], "HOME", 4))
-		++i;
-	return (&environ[i][5]);
+	i = -1;
+	p = ft_strsplit(find_in_env("PATH"), ':');
+	path = ft_strnew(PATH_MAX);
+	while (p[++i])
+	{
+		ft_strclr(path);
+		ft_strcat(path, p[i]);
+		(args[0][0] == '/') ? 0 : ft_strcat(path, "/");
+		ft_strcat(path, args[0]);
+		if (access(path, F_OK) != -1)
+		{
+			print_command(path, args, env);
+			i = -100;
+			break ;
+		}
+	}
+	ft_clean_arr(&p);
+	ft_strdel(&path);
+	if (i == -100)
+		return (0);
+	return (-1);
 }
 
 void	go_to_cd(char **argv)
@@ -62,7 +92,7 @@ void	go_to_cd(char **argv)
 
 	if (argv[1] == NULL || argv[1][0] == '~')
 	{
-		home = find_home();
+		home = find_in_env("HOME");
 		if (argv[1] == NULL || argv[1][1] == '\0')
 			chdir(ft_strjoin("/", home));
 		else
@@ -94,7 +124,7 @@ char	***find_tild(char ***commands)
 		{
 			if (commands[i][j][0] == '~')
 			{
-				home = find_home();
+				home = find_in_env("HOME");
 				commands[i][j] = ft_strjoin(ft_strjoin("/", home)\
 				, &commands[i][j][1]);
 			}
@@ -109,6 +139,7 @@ void	compare_to_commands(char **commands)
 {
 	int		i;
 	char	***d_comm;
+	extern char	**environ;
 
 	d_comm = divide_commands(commands);
 	i = 0;
@@ -133,9 +164,9 @@ void	compare_to_commands(char **commands)
 			go_to_cd(d_comm[i]);
 		else
 		{
-			if (access(ft_strjoin("/bin/", d_comm[i][0]), F_OK) != -1)
-				print_command(d_comm[i]);
-			else
+			if (access(d_comm[i][0], F_OK) != -1)
+				print_command(d_comm[i][0], d_comm[i], NULL);
+			else if (find_command(d_comm[i], environ) == -1)
 				ft_printf("%s: command not found\n", d_comm[i][0]);
 		}
 		// else

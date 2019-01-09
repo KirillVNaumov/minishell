@@ -2,6 +2,7 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
+# include <limits.h>
 
 typedef struct  s_minishell
 {
