@@ -44,12 +44,39 @@ void	print_command(char **argv)
 		wait(&pid);
 }
 
+char	*find_home()
+{
+	extern char		**environ;
+	int				i;
+
+	i = 0;
+	while (ft_strncmp(environ[i], "HOME", 4))
+		++i;
+	return (&environ[i][5]);
+}
+
 void	go_to_cd(char **argv)
 {
-	if (argv[1] == NULL)
-		ft_printf("lsh: expected argument to \"cd\"\n");
+	char			*home;
+
+	if (argv[1] == NULL || argv[1][0] == '~')
+	{
+		home = find_home();
+		if (argv[1] == NULL || argv[1][1] == '\0')
+			chdir(ft_strjoin("/", home));
+		else
+			chdir(ft_strjoin(ft_strjoin("/", home), &argv[1][1]));
+	}
+	else if (argv[2])
+	{
+		ft_printf("cd: string not in pwd: %s", argv[1]);
+		exit(-1);
+	}
 	else if (chdir(argv[1]) != 0)
-		perror("lsh");
+	{
+		ft_printf("minishell: No such file or directory");
+		exit(-1);
+	}
 }
 
 void	compare_to_commands(char **commands)
