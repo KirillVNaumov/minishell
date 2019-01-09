@@ -19,6 +19,31 @@ char	***divide_commands(char **commands)
 	return (d_comm);
 }
 
+void	print_command(char **argv)
+{
+	pid_t	pid;
+	char	**env;
+
+	env = (char**)malloc(sizeof(char*) * 2);
+	env[1] = "PATH=/usr/local/sbin/:/usr/local/bin:\
+	/usr/sbin:/usr/bin:/sbin:/bin:/usr/games";
+	env[2] = NULL;
+	pid = fork();
+	if (pid == 0)
+	{
+		if (execve(ft_strjoin("/bin/", argv[0]), argv, env) == -1)
+			ft_printf("minishell: premission denied: %s\n", argv[0]);
+		exit(-1);
+	}
+	else if (pid == -1)
+	{
+		ft_printf("Unable to fork process\n");
+		exit(-1);
+	}
+	else
+		wait(&pid);
+}
+
 void	compare_to_commands(char **commands)
 {
 	int		i;
@@ -36,7 +61,7 @@ void	compare_to_commands(char **commands)
 		if (!ft_strcmp(d_comm[i][0], "exit"))
 		{
 			ft_printf("%s", CLEAN);
-			exit (0);
+			exit(0);
 		}
 		else if (!ft_strcmp(d_comm[i][0], "clear"))
 			ft_printf("%s", CLEAN);
@@ -45,7 +70,9 @@ void	compare_to_commands(char **commands)
 		else if (!ft_strcmp(d_comm[i][0], "pwd"))
 			print_pwd();
 		else
-			error_no_command(d_comm[i][0]);
+			print_command(d_comm[i]);
+		// else
+			// error_no_command(d_comm[i][0]);
 		++i;
 	}
 }

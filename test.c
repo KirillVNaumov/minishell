@@ -50,6 +50,6 @@ int main()
      // if ((pid = fork()) ==-1)
         // perror("fork error");
 
-		execve(argv[0],argv,NULL);
+		execve(argv[0],argv, env);
 		perror("execve");
 	}
