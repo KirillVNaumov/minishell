@@ -3,6 +3,8 @@
 
 # include "../libft/libft.h"
 # include <limits.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 typedef struct  s_minishell
 {

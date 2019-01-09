@@ -22,11 +22,15 @@ void	main_while_loop(void)
 	minishell.buf = NULL;
 	minishell.commands = NULL;
 	minishell.path = NULL;
+    rl_bind_key('\t', rl_complete);
 	while (1)
 	{
 		commands = NULL;
-		ft_printf("%s$>%s ", CBLUE, CWHITE);
-		get_next_line(0, &line);
+		// ft_printf("%s$>%s ", CBLUE, CWHITE);
+        line = readline(CBLUE"$> " CWHITE);
+        if (!line)
+            break;
+        add_history(line);
 		if (ft_strstr(line, ";;") == NULL)
 			commands = ft_strsplit(line, ';');
 		else
@@ -37,7 +41,7 @@ void	main_while_loop(void)
 		commands = cleaning_matrix(&commands);
 		compare_to_commands(commands);
 		ft_clean_arr(&commands);
-		ft_strdel(&line);
+		// free(&line);
 	}
 }
 

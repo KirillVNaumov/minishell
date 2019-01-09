@@ -6,6 +6,8 @@ SRCS =	srcs/minishell.c srcs/cleaning_input.c srcs/printing_info.c \
 
 LIBFT = -L ./libft -lft
 
+READLINE = -lreadline -ledit
+
 OBJ		=	$(SRCS:.c=.o)
 
 EXEC = minishell
@@ -27,7 +29,7 @@ all: $(EXEC)
 $(EXEC): $(OBJ)
 	@make -C libft
 	@echo "$(GREEN)Compiling executable $(GREEN_EXTRA)$(EXEC)$(RESET)"
-	@gcc -Wall -Wextra -Werror -o $(EXEC) $(OBJ) $(INCLUDE) $(LIBFT) -g
+	@gcc -Wall -Wextra -Werror -o $(EXEC) $(OBJ) $(INCLUDE) $(LIBFT) $(READLINE) -g
 	@echo "$(BLUE_EXTRA)$(EXEC)$(BLUE): Complete$(RESET)"
 
 clean:
