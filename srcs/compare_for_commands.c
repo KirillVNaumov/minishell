@@ -1,4 +1,5 @@
 # include "minishell.h"
+#include <errno.h>
 
 char	***divide_commands(char **commands)
 {
@@ -25,9 +26,9 @@ void	print_command(char **argv)
 	char	**env;
 
 	env = (char**)malloc(sizeof(char*) * 2);
-	env[1] = "PATH=/usr/local/sbin/:/usr/local/bin:\
+	env[0] = "PATH=/usr/local/sbin/:/usr/local/bin:\
 	/usr/sbin:/usr/bin:/sbin:/bin:/usr/games";
-	env[2] = NULL;
+	env[1] = NULL;
 	pid = fork();
 	if (pid == 0)
 	{
@@ -40,11 +41,11 @@ void	print_command(char **argv)
 		ft_printf("Unable to fork process\n");
 		exit(-1);
 	}
-	else
+	if (pid >= 1)
 		wait(&pid);
 }
 
-char	*find_home()
+char	*find_home(void)
 {
 	extern char		**environ;
 	int				i;
@@ -102,8 +103,6 @@ void	compare_to_commands(char **commands)
 			ft_printf("%s", CLEAN);
 		else if (!ft_strcmp(d_comm[i][0], "env"))
 			print_env();
-		// else if (!ft_strcmp(d_comm[i][0], "pwd"))
-		// 	print_pwd();
 		else if (!ft_strcmp(d_comm[i][0], "cd"))
 			go_to_cd(d_comm[i]);
 		else
@@ -111,7 +110,7 @@ void	compare_to_commands(char **commands)
 			if (access(ft_strjoin("/bin/", d_comm[i][0]), F_OK) != -1)
 				print_command(d_comm[i]);
 			else
-				ft_printf("Error\n");
+				ft_printf("%s: command not found\n", d_comm[i][0]);
 		}
 		// else
 			// error_no_command(d_comm[i][0]);
