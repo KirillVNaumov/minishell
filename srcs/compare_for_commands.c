@@ -44,6 +44,14 @@ void	print_command(char **argv)
 		wait(&pid);
 }
 
+void	go_to_cd(char **argv)
+{
+	if (argv[1] == NULL)
+		ft_printf("lsh: expected argument to \"cd\"\n");
+	else if (chdir(argv[1]) != 0)
+		perror("lsh");
+}
+
 void	compare_to_commands(char **commands)
 {
 	int		i;
@@ -67,8 +75,10 @@ void	compare_to_commands(char **commands)
 			ft_printf("%s", CLEAN);
 		else if (!ft_strcmp(d_comm[i][0], "env"))
 			print_env();
-		else if (!ft_strcmp(d_comm[i][0], "pwd"))
-			print_pwd();
+		// else if (!ft_strcmp(d_comm[i][0], "pwd"))
+		// 	print_pwd();
+		else if (!ft_strcmp(d_comm[i][0], "cd"))
+			go_to_cd(d_comm[i]);
 		else
 		{
 			if (access(ft_strjoin("/bin/", d_comm[i][0]), F_OK) != -1)
