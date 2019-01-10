@@ -19,6 +19,13 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
+typedef struct		s_env
+{
+	char			*key;
+	char			*val;
+	struct s_env	*next;
+}					t_env;
+
 char									**cleaning_matrix(char ***commands);
 void									print_env(t_info *info);
 int										check_if_empty(char *str);

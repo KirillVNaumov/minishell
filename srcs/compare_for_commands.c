@@ -135,6 +135,9 @@ void	compare_to_commands(char **commands, t_info *info)
 			print_env(info);
 		else if (!ft_strcmp(d_comm[i][0], "cd"))
 			go_to_cd(d_comm[i], info);
+		else if (!ft_strcmp(d_comm[i][0], "setenv") ||\
+			!ft_strcmp(d_comm[i][0], "unsetenv"))
+			env_manage(d_comm[i], );
 		else
 		{
 			if (access(d_comm[i][0], F_OK) != -1)

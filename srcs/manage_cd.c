@@ -1,12 +1,14 @@
 #include "minishell.h"
 
-char    *new_pwd(char *old_pwd, char *address)
+char		*new_pwd(char *old_pwd, char *address)
 {
-	char		**arr;
-	char		*str;
-	int			i;
+	char	**arr;
+	char	*str;
+	int		i;
 	t_list	*pwd;
 
+	if (address && address[0] == '/')
+		old_pwd = ft_strnew(1);
 	i = 0;
 	pwd = NULL;
 	address = ft_strjoin("/", address);
@@ -17,7 +19,10 @@ char    *new_pwd(char *old_pwd, char *address)
 		if (!ft_strcmp(arr[i], ".."))
 			ft_list_remove_back(&pwd);
 		else if (!ft_strcmp(arr[i], "."))
+		{
+			i++;
 			continue ;
+		}
 		else
 			pwd = ft_list_add_back(pwd, arr[i]);
 		i++;
@@ -47,26 +52,20 @@ void	go_to_cd(char **argv, t_info *info)
 	char	*home;
 	char	*address;
 
-	if (argv[1] == NULL || argv[1][0] == '~')
+	if (argv[1] == NULL || (argv[1] && !ft_strcmp(argv[1], "--")))
 	{
 		home = find_in_env("HOME", info);
 		address = ft_strdup(home);
-		if (argv[1] == NULL || argv[1][1] == '\0')
-		{
-			info->old_pwd = ft_strdup(info->pwd);
-			info->pwd = home;
-			ft_printf("OLD_PWD = %s\nPWD = %s\n", info->old_pwd, info->pwd);
-			chdir(address);
-		}
-		else if (argv[1][0] == '~' && argv[1][1] == '/')
-		{
-			ft_printf("---~LOL\n");
-
-			address = ft_update(address, (ft_strjoin("/", home), &argv[1][1]));
-			change_pwd(address, info);
-			ft_printf("OLD_PWD = %s\nPWD = %s\n", info->old_pwd, info->pwd);
-			chdir(address);
-		}
+		info->old_pwd = ft_strdup(info->pwd);
+		info->pwd = home;
+		chdir(address);
+	}
+	else if (argv[1] && argv[1][0] == '-' && ft_strlen(argv[1]) == 1)
+	{
+		address = ft_strdup(info->old_pwd);
+		ft_printf("%s\n", info->old_pwd);
+		chdir(info->old_pwd);
+		change_pwd(address, info);
 	}
 	else if (argv[2])
 		ft_printf("cd: string not in pwd: %s", argv[1]);
@@ -74,7 +73,6 @@ void	go_to_cd(char **argv, t_info *info)
 	{
 		address = ft_strdup(argv[1]);
 		change_pwd(address, info);
-		ft_printf("OLD_PWD = %s\nPWD = %s\n", info->old_pwd, info->pwd);
 	}
 	else
 		ft_printf("minishell: No such file or directory\n");
