@@ -17,7 +17,7 @@ int		ft_list_size(t_list *root)
 	return (i);
 }
 
-t_list	        *ft_list_add_back(t_list *list, char *dir)
+t_list			*ft_list_add_back(t_list *list, char *dir)
 {
 	t_list		*begining;
 	t_list		*node;
@@ -48,7 +48,7 @@ void			ft_list_remove_back(t_list **list)
 		return ;
 	if (ft_list_size(*list) == 1)
 	{
-        free((*list)->dir);
+		free((*list)->dir);
 		free(*list);
 		*list = NULL;
 		return ;
@@ -58,6 +58,6 @@ void			ft_list_remove_back(t_list **list)
 		node = node->next;
 	tmp = node->next;
 	node->next = NULL;
-    free(tmp->dir);
+	free(tmp->dir);
 	free(tmp);
 }

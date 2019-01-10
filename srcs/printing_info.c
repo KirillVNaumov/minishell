@@ -1,13 +1,14 @@
-# include "minishell.h"
+#include "minishell.h"
 
 void	print_env(t_info *info)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (info->env[i])
 	{
-		if (ft_strncmp(info->env[i], "PWD", 3) && ft_strncmp(info->env[i], "OLDPWD", 3))
+		if (ft_strncmp(info->env[i], "PWD", 3)\
+		&& ft_strncmp(info->env[i], "OLDPWD", 3))
 			ft_printf("%s\n", info->env[i]);
 		else
 		{
