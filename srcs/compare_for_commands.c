@@ -1,4 +1,4 @@
-# include "minishell.h"
+#include "minishell.h"
 #include <errno.h>
 
 char	*find_in_env(char *find)
@@ -34,18 +34,12 @@ char	***divide_commands(char **commands)
 void	print_command(char *path, char **argv, char **env)
 {
 	pid_t	pid;
-	// char	**env;
 
-	// env = (char**)malloc(sizeof(char*) * 2);
-	// env[0] = "PATH=/nfs/2018/a/amelikia/.brew/bin:/usr/local/\
-	// bin:/usr/bin:/bin:/usr/sbin:/sbin:/opt/X11/bin:/Library/\
-	// Frameworks/Mono.framework/Versions/Current/Commands:/usr/local/munki";
-	// env[1] = NULL;
 	pid = fork();
 	if (pid == 0)
 	{
 		if (execve(path, argv, env) == -1)
-			ft_printf("minishell: premission denied: %s\n", path);
+			ft_printf("minishell: command not found: %s\n", path);
 		exit(-1);
 	}
 	else if (pid == -1)
@@ -105,7 +99,7 @@ void	go_to_cd(char **argv)
 	}
 	else if (chdir(argv[1]) != 0)
 	{
-		ft_printf("minishell: No such file or directory");
+		ft_printf("minishell: No such file or directory\n");
 		exit(-1);
 	}
 }
@@ -125,7 +119,7 @@ char	***find_tild(char ***commands)
 			if (commands[i][j][0] == '~')
 			{
 				home = find_in_env("HOME");
-				commands[i][j] = ft_strjoin(ft_strjoin("/", home)\
+				commands[i][j] = ft_strjoin(home\
 				, &commands[i][j][1]);
 			}
 			j++;
@@ -134,6 +128,20 @@ char	***find_tild(char ***commands)
 	}
 	return (commands);
 }
+
+void	find_exit(char *str)
+{
+	if (!ft_strcmp(str, "exit"))
+	{
+		ft_printf("%s", CLEAN);
+		exit(0);
+	}
+}
+//
+// void	do_echo(char **argv)
+// {
+// 		if (argv[i])
+// }
 
 void	compare_to_commands(char **commands)
 {
@@ -151,17 +159,15 @@ void	compare_to_commands(char **commands)
 			++i;
 			continue ;
 		}
-		if (!ft_strcmp(d_comm[i][0], "exit"))
-		{
-			ft_printf("%s", CLEAN);
-			exit(0);
-		}
-		else if (!ft_strcmp(d_comm[i][0], "clear"))
+		find_exit(d_comm[i][0]);
+		if (!ft_strcmp(d_comm[i][0], "clear"))
 			ft_printf("%s", CLEAN);
 		else if (!ft_strcmp(d_comm[i][0], "env"))
 			print_env();
 		else if (!ft_strcmp(d_comm[i][0], "cd"))
 			go_to_cd(d_comm[i]);
+		// else if (!ft_strcmp(d_comm[i][0], "echo"))
+		// 	do_echo(d_comm[i]);
 		else
 		{
 			if (access(d_comm[i][0], F_OK) != -1)
@@ -169,8 +175,6 @@ void	compare_to_commands(char **commands)
 			else if (find_command(d_comm[i], environ) == -1)
 				ft_printf("%s: command not found\n", d_comm[i][0]);
 		}
-		// else
-			// error_no_command(d_comm[i][0]);
 		++i;
 	}
 }
