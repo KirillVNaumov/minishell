@@ -1,15 +1,14 @@
 #include "minishell.h"
 #include <errno.h>
 
-char	*find_in_env(char *find)
+char	*find_in_env(char *find, t_info *info)
 {
-	extern char		**environ;
 	int				i;
 
 	i = 0;
-	while (ft_strncmp(environ[i], find, 4))
+	while (ft_strncmp(info->env[i], find, ft_strlen(find)))
 		++i;
-	return (&environ[i][5]);
+	return (ft_strchr(info->env[i], '/'));
 }
 
 char	***divide_commands(char **commands)
@@ -51,14 +50,14 @@ void	print_command(char *path, char **argv, char **env)
 		wait(&pid);
 }
 
-int	find_command(char **args, char **env)
+int	find_command(char **args, t_info *info)
 {
 	char	**p;
 	char	*path;
 	int		i;
 
 	i = -1;
-	p = ft_strsplit(find_in_env("PATH"), ':');
+	p = ft_strsplit(find_in_env("PATH", info), ':');
 	path = ft_strnew(PATH_MAX);
 	while (p[++i])
 	{
@@ -68,7 +67,7 @@ int	find_command(char **args, char **env)
 		ft_strcat(path, args[0]);
 		if (access(path, F_OK) != -1)
 		{
-			print_command(path, args, env);
+			print_command(path, args, info->env);
 			i = -100;
 			break ;
 		}
@@ -80,31 +79,7 @@ int	find_command(char **args, char **env)
 	return (-1);
 }
 
-void	go_to_cd(char **argv)
-{
-	char			*home;
-
-	if (argv[1] == NULL || argv[1][0] == '~')
-	{
-		home = find_in_env("HOME");
-		if (argv[1] == NULL || argv[1][1] == '\0')
-			chdir(ft_strjoin("/", home));
-		else
-			chdir(ft_strjoin(ft_strjoin("/", home), &argv[1][1]));
-	}
-	else if (argv[2])
-	{
-		ft_printf("cd: string not in pwd: %s", argv[1]);
-		exit(-1);
-	}
-	else if (chdir(argv[1]) != 0)
-	{
-		ft_printf("minishell: No such file or directory\n");
-		exit(-1);
-	}
-}
-
-char	***find_tild(char ***commands)
+char	***find_tild(char ***commands, t_info *info)
 {
 	char	*home;
 	int		i;
@@ -118,7 +93,7 @@ char	***find_tild(char ***commands)
 		{
 			if (commands[i][j][0] == '~')
 			{
-				home = find_in_env("HOME");
+				home = find_in_env("HOME", info);
 				commands[i][j] = ft_strjoin(home\
 				, &commands[i][j][1]);
 			}
@@ -137,21 +112,15 @@ void	find_exit(char *str)
 		exit(0);
 	}
 }
-//
-// void	do_echo(char **argv)
-// {
-// 		if (argv[i])
-// }
 
-void	compare_to_commands(char **commands)
+void	compare_to_commands(char **commands, t_info *info)
 {
 	int		i;
 	char	***d_comm;
-	extern char	**environ;
 
 	d_comm = divide_commands(commands);
 	i = 0;
-	d_comm = find_tild(d_comm);
+	d_comm = find_tild(d_comm, info);
 	while (d_comm && d_comm[i] && d_comm[i][0])
 	{
 		if (check_if_empty(d_comm[i][0]) == 1)
@@ -163,16 +132,14 @@ void	compare_to_commands(char **commands)
 		if (!ft_strcmp(d_comm[i][0], "clear"))
 			ft_printf("%s", CLEAN);
 		else if (!ft_strcmp(d_comm[i][0], "env"))
-			print_env();
+			print_env(info);
 		else if (!ft_strcmp(d_comm[i][0], "cd"))
-			go_to_cd(d_comm[i]);
-		// else if (!ft_strcmp(d_comm[i][0], "echo"))
-		// 	do_echo(d_comm[i]);
+			go_to_cd(d_comm[i], info);
 		else
 		{
 			if (access(d_comm[i][0], F_OK) != -1)
 				print_command(d_comm[i][0], d_comm[i], NULL);
-			else if (find_command(d_comm[i], environ) == -1)
+			else if (find_command(d_comm[i], info) == -1)
 				ft_printf("%s: command not found\n", d_comm[i][0]);
 		}
 		++i;

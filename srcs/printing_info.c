@@ -1,36 +1,21 @@
 # include "minishell.h"
 
-void	print_env(void)
+void	print_env(t_info *info)
 {
-	extern char **environ;
-	char	**argv;
-
-	argv = (char**)malloc(sizeof(char*) * 2);
-	argv[0] = "pwd";
-	argv[1] = NULL;
 	int		i;
-	pid_t	pid;
 
-	pid = fork();
 	i = 0;
-	while (environ[i])
+	while (info->env[i])
 	{
-		if (ft_strncmp(environ[i], "PWD", 3))
-			ft_printf("%s\n", environ[i]);
-		else if (pid == 0)
-		{
-			ft_printf("PWD=");
-			execve("/bin/pwd", argv, NULL);
-		}
+		if (ft_strncmp(info->env[i], "PWD", 3) && ft_strncmp(info->env[i], "OLDPWD", 3))
+			ft_printf("%s\n", info->env[i]);
 		else
-			wait(&pid);
+		{
+			if (!ft_strncmp(info->env[i], "PWD", 3))
+				ft_printf("PWD=%s\n", info->pwd);
+			if (!ft_strncmp(info->env[i], "OLDPWD", 3))
+				ft_printf("OLDPWD=%s\n", info->old_pwd);
+		}
 		++i;
 	}
-}
-
-void	print_pwd(void)
-{
-	extern char **environ;
-
-	ft_printf("%s\n", environ[26]);
 }

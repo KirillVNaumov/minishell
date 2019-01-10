@@ -12,11 +12,34 @@
 
 #include "minishell.h"
 
+void	create_env(t_info *info)
+{
+	extern char		**environ;
+	int				i;
+
+	i = 0;
+	while (environ[i])
+		++i;
+	info->env = (char **)malloc(sizeof(char *) * (i + 1));
+	i = 0;
+	while (environ[i])
+	{
+		info->env[i] = ft_strdup(environ[i]);
+		++i;
+	}
+	info->env[i] = NULL;
+	info->old_pwd = ft_strdup(find_in_env("OLDPWD", info));
+	info->pwd = ft_strdup(find_in_env("PWD", info));
+}
+
 void	main_while_loop(void)
 {
 	char			*line;
 	char			**commands;
+	t_info			info;			
 
+	ft_bzero(&info, sizeof(t_info *));
+	create_env(&info);
 	rl_bind_key('\t', rl_complete);
 	while (1)
 	{
@@ -33,7 +56,7 @@ void	main_while_loop(void)
 			continue ;
 		}
 		commands = cleaning_matrix(&commands);
-		compare_to_commands(commands);
+		compare_to_commands(commands, &info);
 		ft_clean_arr(&commands);
 	}
 }
