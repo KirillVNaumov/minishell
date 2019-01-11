@@ -50,9 +50,9 @@ t_env			*ft_env_remove_by_key(t_env *list, char *key)
 		return (list->next);
 	while (list && list->next && ft_strcmp(list->next->key, key))
 		list = list->next;
-	if (!ft_strcmp(list->next->key, key))
+	if (list->next && !ft_strcmp(list->next->key, key))
 		list->next = list->next->next;
-	if (!ft_strcmp(list->key, key))
+	if (list && !ft_strcmp(list->key, key))
 		list->next = NULL;
 	return (head);
 }

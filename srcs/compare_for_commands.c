@@ -148,23 +148,95 @@ void	set_env_manage(char **var, t_info *info)
 	char **dic;
 
 	if (ft_strchr(var[1], '='))
+	{
 		dic = ft_strsplit(var[1], '=');
+		if (dic[0] && dic[1])
+			info->env = ft_env_add_back(info->env, dic[0], dic[1]);
+		else
+		{
+			ft_printf("setenv: Variable name ");
+			ft_printf("must contain alphanumeric characters.\n");
+		}
+	}
+	else if (var[1])
+		info->env = ft_env_add_back(info->env, var[1], var[2]);
 	else
 	{
-		dic = (char**)malloc(sizeof(char*) * 3);
-		dic[0] = ft_strdup(var[1]);
-		dic[1] = ft_strdup(var[2]);
-		dic[2] = NULL;
+		ft_printf("setenv: Variable name ");
+		ft_printf("must contain alphanumeric characters.\n");
 	}
-	info->env = ft_env_add_back(info->env, dic[0], dic[1]);
+}
+
+int		found_in_env(char **var, t_info *info)
+{
+	char	**dic;
+	t_env	*tmp;
+
+	if (ft_strchr(var[1], '='))
+		dic = ft_strsplit(var[1], '=');
+	else if (var[1])
+	{
+		dic = (char**)malloc(sizeof(char*) * 3);
+		dic[0] = var[1];
+		dic[1] = var[2];
+		dic[3] = NULL;
+	}
+	else
+		return (-1);
+	tmp = info->env;
+	while (tmp)
+	{
+		if (tmp->key == dic[0])
+			return (1);
+		tmp = tmp->next;
+	}
+	return (-1);
+}
+
+void	change_env(char **var, t_list *info)
+{
+	char	**dic;
+	t_env	*tmp;
+
+	if (ft_strchr(var[1], '='))
+		dic = ft_strsplit(var[1], '=');
+	else if (var[1])
+	{
+		dic = (char**)malloc(sizeof(char*) * 3);
+		dic[0] = var[1];
+		dic[1] = var[2];
+		dic[3] = NULL;
+	}
+	else
+	{
+		ft_printf("setenv: Variable name ");
+		ft_printf("must contain alphanumeric characters.\n");
+		return ;
+	}
+	tmp = info->env;
+	while (tmp)
+	{
+		if (tmp->key == dic[1])
+			tmp->val = dic[2];
+		tmp = tmp->next;
+	}
 }
 
 void	env_manage(char **var, t_info *info)
 {
-	if (!ft_strcmp(var[0], "setenv"))
-		set_env_manage(var, info);
-	else
+	if (!ft_strcmp(var[0], "setenv") && var[1])
+	{
+		if (found_in_env(var, info) == 1)
+			change_env(var, info);
+		else
+			set_env_manage(var, info);
+	}
+	else if (!ft_strcmp(var[0], "setenv") && var[1] == NULL)
+		print_env(info);
+	else if (!ft_strcmp(var[0], "unsetenv") && var[1])
 		info->env = ft_env_remove_by_key(info->env, var[1]);
+	else
+		ft_printf("unsetenv: Too few arguments.\n");
 }
 
 void	compare_to_commands(char **commands, t_info *info)
