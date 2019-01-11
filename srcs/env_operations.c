@@ -41,27 +41,18 @@ t_env			*ft_env_add_back(t_env *list, char *s1, char *s2)
 	return (begining);
 }
 
-void			ft_env_remove_back(t_env **list)
+t_env			*ft_env_remove_by_key(t_env *list, char *key)
 {
-	t_env		*tmp;
-	t_env		*node;
+	t_env		*head;
 
-	if (*list == NULL)
-		return ;
-	if (ft_env_size(*list) == 1)
-	{
-		free((*list)->key);
-		free((*list)->val);
-		free(*list);
-		*list = NULL;
-		return ;
-	}
-	node = *list;
-	while (node->next->next)
-		node = node->next;
-	tmp = node->next;
-	node->next = NULL;
-	free(tmp->key);
-	free(tmp->val);
-	free(tmp);
+	head = list;
+	if (!ft_strcmp(list->key, key))
+		return (list->next);
+	while (list && list->next && ft_strcmp(list->next->key, key))
+		list = list->next;
+	if (!ft_strcmp(list->next->key, key))
+		list->next = list->next->next;
+	if (!ft_strcmp(list->key, key))
+		list->next = NULL;
+	return (head);
 }

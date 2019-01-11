@@ -31,6 +31,7 @@ void									print_env(t_info *info);
 int										check_if_empty(char *str);
 void									compare_to_commands(char **commands,\
 	t_info *info);
+t_env									*ft_env_remove_by_key(t_env *list, char *key);
 t_env									*ft_env_add_back(t_env\
 	*list, char *s1, char *s2);
 int										ft_env_size(t_env *root);

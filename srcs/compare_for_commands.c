@@ -10,7 +10,9 @@ char	*find_in_env(char *find, t_info *info)
 	i = 0;
 	while (tmp && ft_strncmp(tmp->key, find, ft_strlen(find)))
 		tmp = tmp->next;
-	return (tmp->val);
+	if (tmp)
+		return (tmp->val);
+	return (NULL);
 }
 
 char	***divide_commands(char **commands)
@@ -47,8 +49,10 @@ char	**move_list_into_array(t_env *env)
 		ret[i] = ft_strdup(tmp->key);
 		ret[i] = ft_strjoin(ret[i], "=");
 		ret[i] = ft_strjoin(ret[i], tmp->val);
+		i++;
 		tmp = tmp->next;
 	}
+	ret[i] = NULL;
 	return (ret);
 }
 
@@ -81,14 +85,16 @@ int	find_command(char **args, t_info *info)
 	int		i;
 
 	i = -1;
+	if (!find_in_env("PATH", info))
+		return (-1);
 	p = ft_strsplit(find_in_env("PATH", info), ':');
 	path = ft_strnew(PATH_MAX);
 	while (p[++i])
 	{
 		ft_strclr(path);
-		ft_strcat(path, p[i]);
+		path = ft_strcat(path, p[i]);
 		(args[0][0] == '/') ? 0 : ft_strcat(path, "/");
-		ft_strcat(path, args[0]);
+		path = ft_strcat(path, args[0]);
 		if (access(path, F_OK) != -1)
 		{
 			print_command(path, args, info->env);
@@ -137,7 +143,7 @@ void	find_exit(char *str)
 	}
 }
 
-void	env_manage(char **var, t_info *info)
+void	set_env_manage(char **var, t_info *info)
 {
 	char **dic;
 
@@ -151,6 +157,14 @@ void	env_manage(char **var, t_info *info)
 		dic[2] = NULL;
 	}
 	info->env = ft_env_add_back(info->env, dic[0], dic[1]);
+}
+
+void	env_manage(char **var, t_info *info)
+{
+	if (!ft_strcmp(var[0], "setenv"))
+		set_env_manage(var, info);
+	else
+		info->env = ft_env_remove_by_key(info->env, var[1]);
 }
 
 void	compare_to_commands(char **commands, t_info *info)
