@@ -26,7 +26,10 @@ t_env			*ft_env_add_back(t_env *list, char *s1, char *s2)
 	{
 		list = (t_env *)malloc(sizeof(t_env));
 		list->key = ft_strdup(s1);
-		list->val = ft_strdup(s2);
+		if (s2)
+			list->val = ft_strdup(s2);
+		else
+			list->val = ft_strnew(1);
 		list->next = NULL;
 		return (list);
 	}
@@ -34,7 +37,10 @@ t_env			*ft_env_add_back(t_env *list, char *s1, char *s2)
 	begining = list;
 	node->next = NULL;
 	node->key = ft_strdup(s1);
-	node->val = ft_strdup(s2);
+	if (s2)
+		node->val = ft_strdup(s2);
+	else
+		node->val = ft_strnew(1);
 	while (list->next)
 		list = list->next;
 	list->next = node;

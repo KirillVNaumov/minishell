@@ -193,7 +193,7 @@ int		found_in_env(char **var, t_info *info)
 	return (-1);
 }
 
-void	change_env(char **var, t_list *info)
+void	change_env(char **var, t_info *info)
 {
 	char	**dic;
 	t_env	*tmp;
