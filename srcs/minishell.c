@@ -24,6 +24,7 @@ void	create_env(t_info *info)
 	{
 		tmp = ft_strsplit(environ[i], '=');
 		info->env = ft_env_add_back(info->env, tmp[0], tmp[1]);
+		ft_clean_arr(&tmp);
 		++i;
 	}
 	info->old_pwd = ft_strdup(find_in_env("OLDPWD", info));
@@ -38,14 +39,16 @@ void	main_while_loop(void)
 
 	ft_bzero(&info, sizeof(t_info *));
 	create_env(&info);
-	rl_bind_key('\t', rl_complete);
+	// rl_bind_key('\t', rl_complete);
 	while (1)
 	{
 		commands = NULL;
-		line = readline(CBLUE"$> " CWHITE);
-		if (!line)
-			break ;
-		add_history(line);
+		ft_printf("%s$> %s", CBLUE, CWHITE);
+		get_next_line(0, &line);
+		// line = readline(CBLUE"$> " CWHITE);
+		// if (!line)
+			// break ;
+		// add_history(line);
 		if (ft_strstr(line, ";;") == NULL)
 			commands = ft_strsplit(line, ';');
 		else
@@ -56,6 +59,7 @@ void	main_while_loop(void)
 		commands = cleaning_matrix(&commands);
 		compare_to_commands(commands, &info);
 		ft_clean_arr(&commands);
+		free(line);
 	}
 }
 

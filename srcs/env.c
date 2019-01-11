@@ -1,10 +1,5 @@
 # include "minishell.h"
 
-void	set_env_manage(char **var, t_info *info)
-{
-	info->env = ft_env_add_back(info->env, var[0], var[1]);
-}
-
 int		found_in_env(char **var, t_info *info)
 {
 	t_env	*tmp;
@@ -29,9 +24,9 @@ void	change_env(char **var, t_info *info)
         if (!ft_strcmp(tmp->key, var[0]))
 		{
             if (var[1])
-                tmp->val = var[1];
+                tmp->val = ft_update(tmp->val, ft_strdup(var[1]));
             else
-                tmp->val = ft_strnew(1);
+                tmp->val = ft_update(tmp->val, ft_strnew(1));
         }
         tmp = tmp->next;
 	}
@@ -47,14 +42,14 @@ char    **args_for_set_env(char **var)
 	else if (var[1] && var[2])
 	{
 		setenv = (char **)malloc(sizeof(char *) * 3);
-		setenv[0] = var[1];
-		setenv[1] = var[2];
+		setenv[0] = ft_strdup(var[1]);
+		setenv[1] = ft_strdup(var[2]);
 		setenv[2] = NULL;
 	}
     else if (var[1] && !var[2])
     {
 		setenv = (char **)malloc(sizeof(char *) * 2);
-		setenv[0] = var[1];
+		setenv[0] = ft_strdup(var[1]);
 		setenv[1] = NULL;
     }
     else
@@ -78,7 +73,8 @@ void	env_manage(char **var, t_info *info)
 		if (found_in_env(setenv, info) == 1)
 			change_env(setenv, info);
 		else
-			set_env_manage(setenv, info);
+	        info->env = ft_env_add_back(info->env, setenv[0], setenv[1]);
+		ft_clean_arr(&setenv);
 	}
 	else if (!ft_strcmp(var[0], "setenv") && var[1] == NULL)
 		print_env(info);

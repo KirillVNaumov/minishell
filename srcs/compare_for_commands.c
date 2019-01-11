@@ -47,8 +47,8 @@ char	**move_list_into_array(t_env *env)
 	while (tmp)
 	{
 		ret[i] = ft_strdup(tmp->key);
-		ret[i] = ft_strjoin(ret[i], "=");
-		ret[i] = ft_strjoin(ret[i], tmp->val);
+		ret[i] = ft_update(ret[i], ft_strjoin(ret[i], "="));
+		ret[i] = ft_update(ret[i], ft_strjoin(ret[i], tmp->val));
 		i++;
 		tmp = tmp->next;
 	}
@@ -76,6 +76,7 @@ void	print_command(char *path, char **argv, t_env *env)
 	}
 	if (pid >= 1)
 		wait(&pid);
+	ft_clean_arr(&execve_bitch);
 }
 
 int	find_command(char **args, t_info *info)
@@ -143,6 +144,19 @@ void	find_exit(char *str)
 	}
 }
 
+void	clean_all_commands(char ****comm)
+{
+	int i;
+
+	i = 0;
+	while ((*comm)[i])
+	{
+		ft_clean_arr(&(*comm)[i]);
+		i++;
+	}
+	free(*comm);
+}
+
 void	compare_to_commands(char **commands, t_info *info)
 {
 	int		i;
@@ -177,4 +191,5 @@ void	compare_to_commands(char **commands, t_info *info)
 		}
 		++i;
 	}
+	clean_all_commands(&d_comm);
 }
