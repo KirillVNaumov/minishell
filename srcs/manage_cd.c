@@ -68,7 +68,7 @@ void	go_to_cd(char **argv, t_info *info)
 		change_pwd(address, info);
 	}
 	else if (argv[2])
-		ft_printf("cd: string not in pwd: %s", argv[1]);
+		ft_printf("cd: string not in pwd: %s\n", argv[1]);
 	else if (chdir(argv[1]) == 0)
 	{
 		address = ft_strdup(argv[1]);

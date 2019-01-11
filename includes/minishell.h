@@ -39,6 +39,7 @@ void									go_to_cd(char **argv, t_info *info);
 char									*find_in_env(char *find, t_info *info);
 t_list								*ft_list_add_back(t_list *list, char *dir);
 void									ft_list_remove_back(t_list **list);
+void									env_manage(char **var, t_info *info);
 
 //ERROR MANAGMENT
 void            	    error_permissions(char *command, char *file);
