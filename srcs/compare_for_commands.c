@@ -4,11 +4,13 @@
 char	*find_in_env(char *find, t_info *info)
 {
 	int				i;
+	t_env			*tmp;
 
+	tmp = info->env;
 	i = 0;
-	while (ft_strncmp(info->env[i], find, ft_strlen(find)))
-		++i;
-	return (ft_strchr(info->env[i], '/'));
+	while (tmp && ft_strncmp(tmp->key, find, ft_strlen(find)))
+		tmp = tmp->next;
+	return (tmp->val);
 }
 
 char	***divide_commands(char **commands)
@@ -30,14 +32,36 @@ char	***divide_commands(char **commands)
 	return (d_comm);
 }
 
-void	print_command(char *path, char **argv, char **env)
+char	**move_list_into_array(t_env *env)
+{
+	char	**ret;
+	t_env	*tmp;
+	int		i;
+
+	tmp = env;
+	i = ft_env_size(env);
+	ret = (char**)malloc(sizeof(char*) * (i + 1));
+	i = 0;
+	while (tmp)
+	{
+		ret[i] = ft_strdup(tmp->key);
+		ret[i] = ft_strjoin(ret[i], "=");
+		ret[i] = ft_strjoin(ret[i], tmp->val);
+		tmp = tmp->next;
+	}
+	return (ret);
+}
+
+void	print_command(char *path, char **argv, t_env *env)
 {
 	pid_t	pid;
+	char	**execve_bitch;
 
+	execve_bitch = move_list_into_array(env);
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execve(path, argv, env) == -1)
+		if (execve(path, argv, execve_bitch) == -1)
 			ft_printf("minishell: command not found: %s\n", path);
 		exit(-1);
 	}
@@ -113,6 +137,22 @@ void	find_exit(char *str)
 	}
 }
 
+void	env_manage(char **var, t_info *info)
+{
+	char **dic;
+
+	if (ft_strchr(var[1], '='))
+		dic = ft_strsplit(var[1], '=');
+	else
+	{
+		dic = (char**)malloc(sizeof(char*) * 3);
+		dic[0] = ft_strdup(var[1]);
+		dic[1] = ft_strdup(var[2]);
+		dic[2] = NULL;
+	}
+	info->env = ft_env_add_back(info->env, dic[0], dic[1]);
+}
+
 void	compare_to_commands(char **commands, t_info *info)
 {
 	int		i;
@@ -137,7 +177,7 @@ void	compare_to_commands(char **commands, t_info *info)
 			go_to_cd(d_comm[i], info);
 		else if (!ft_strcmp(d_comm[i][0], "setenv") ||\
 			!ft_strcmp(d_comm[i][0], "unsetenv"))
-			env_manage(d_comm[i], );
+			env_manage(d_comm[i], info);
 		else
 		{
 			if (access(d_comm[i][0], F_OK) != -1)

@@ -6,11 +6,18 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
+typedef struct		s_env
+{
+	char			*key;
+	char			*val;
+	struct s_env	*next;
+}					t_env;
+
 typedef struct	s_info
 {
 	char		*pwd;
 	char		*old_pwd;
-	char		**env;
+	t_env		*env;
 }				t_info;
 
 typedef struct		s_list
@@ -19,18 +26,14 @@ typedef struct		s_list
 	struct s_list	*next;
 }					t_list;
 
-typedef struct		s_env
-{
-	char			*key;
-	char			*val;
-	struct s_env	*next;
-}					t_env;
-
 char									**cleaning_matrix(char ***commands);
 void									print_env(t_info *info);
 int										check_if_empty(char *str);
 void									compare_to_commands(char **commands,\
 	t_info *info);
+t_env									*ft_env_add_back(t_env\
+	*list, char *s1, char *s2);
+int										ft_env_size(t_env *root);
 void									go_to_cd(char **argv, t_info *info);
 char									*find_in_env(char *find, t_info *info);
 t_list								*ft_list_add_back(t_list *list, char *dir);

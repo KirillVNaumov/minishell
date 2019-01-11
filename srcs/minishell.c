@@ -6,7 +6,7 @@
 /*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 13:07:42 by amelikia          #+#    #+#             */
-/*   Updated: 2019/01/09 18:43:16 by amelikia         ###   ########.fr       */
+/*   Updated: 2019/01/10 17:22:05 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,17 @@
 void	create_env(t_info *info)
 {
 	extern char		**environ;
+	char			**tmp;
 	int				i;
 
 	i = 0;
-	while (environ[i])
-		++i;
-	info->env = (char **)malloc(sizeof(char *) * (i + 1));
-	i = 0;
+	info->env = NULL;
 	while (environ[i])
 	{
-		info->env[i] = ft_strdup(environ[i]);
+		tmp = ft_strsplit(environ[i], '=');
+		info->env = ft_env_add_back(info->env, tmp[0], tmp[1]);
 		++i;
 	}
-	info->env[i] = NULL;
 	info->old_pwd = ft_strdup(find_in_env("OLDPWD", info));
 	info->pwd = ft_strdup(find_in_env("PWD", info));
 }
@@ -36,7 +34,7 @@ void	main_while_loop(void)
 {
 	char			*line;
 	char			**commands;
-	t_info			info;			
+	t_info			info;
 
 	ft_bzero(&info, sizeof(t_info *));
 	create_env(&info);
