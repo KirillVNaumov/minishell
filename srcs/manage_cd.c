@@ -6,6 +6,7 @@ char		*new_pwd(char *old_pwd, char *address)
 	char	*str;
 	int		i;
 	t_list	*pwd;
+	t_list	*tmp;
 
 	if (address && address[0] == '/')
 		old_pwd = ft_update(old_pwd, ft_strnew(1));
@@ -30,6 +31,7 @@ char		*new_pwd(char *old_pwd, char *address)
 	str = ft_strnew(1);
 	if (!pwd)
 		str = ft_update(str, ft_strjoin(str, "/"));
+	tmp = pwd;
 	while (pwd)
 	{
 		str = ft_update(str, ft_strjoin(str, "/"));
@@ -38,7 +40,7 @@ char		*new_pwd(char *old_pwd, char *address)
 	}
 	ft_strdel(&old_pwd);
 	ft_clean_arr(&arr);
-	ft_list_clean(&pwd);
+	ft_list_clean(&tmp);
 	free(address);
 	return (str);
 }

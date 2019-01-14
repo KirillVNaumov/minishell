@@ -50,15 +50,34 @@ t_env			*ft_env_add_back(t_env *list, char *s1, char *s2)
 t_env			*ft_env_remove_by_key(t_env *list, char *key)
 {
 	t_env		*head;
+	t_env		*tmp;
 
 	head = list;
 	if (!ft_strcmp(list->key, key))
-		return (list->next);
+	{
+		tmp = list->next;
+		free(list->key);
+		free(list->val);
+		free(list);
+		return (tmp);
+	}
 	while (list && list->next && ft_strcmp(list->next->key, key))
 		list = list->next;
-	if (list->next && !ft_strcmp(list->next->key, key))
+	if (list && list->next && !ft_strcmp(list->next->key, key))
+	{
+		tmp = list->next;
 		list->next = list->next->next;
-	if (list && !ft_strcmp(list->key, key))
+		free(tmp->key);
+		free(tmp->val);
+		free(tmp);
+	}
+	else if (list && !ft_strcmp(list->key, key))
+	{
+		tmp = list;
 		list->next = NULL;
+		free(tmp->key);
+		free(tmp->val);
+		free(tmp);
+	}
 	return (head);
 }

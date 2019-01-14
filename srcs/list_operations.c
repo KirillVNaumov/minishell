@@ -26,6 +26,7 @@ void	ft_list_clean(t_list **list)
 	node = *list;
 	if (node && node->next)
 		ft_list_clean(&node->next);
+	ft_strdel(&node->dir);
 	ft_memdel((void**)list);
 }
 

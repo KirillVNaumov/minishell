@@ -24,14 +24,14 @@ BLUE_EXTRA = \033[1;36m
 
 %.o:%.c
 			@echo "$(GREEN) - Creating $(GREEN_EXTRA)$<...$(RESET)"
-			@gcc -Wall -Wextra -Werror -c $< -o $@ $(INCLUDES) -fsanitize=address -fsanitize=undefined -g
+			@gcc -Wall -Wextra -Werror -c $< -o $@ $(INCLUDES) -g
 
 all: $(EXEC)
 
 $(EXEC): $(OBJ)
 	@make -C libft
 	@echo "$(GREEN)Compiling executable $(GREEN_EXTRA)$(EXEC)$(RESET)"
-	@gcc -Wall -Wextra -Werror -o $(EXEC) $(OBJ) $(INCLUDE) $(LIBFT) $(READLINE) -fsanitize=address -fsanitize=undefined -g
+	@gcc -Wall -Wextra -Werror -o $(EXEC) $(OBJ) $(INCLUDE) $(LIBFT) $(READLINE) -g
 	@echo "$(BLUE_EXTRA)$(EXEC)$(BLUE): Complete$(RESET)"
 
 clean:

@@ -20,7 +20,11 @@ void		ft_clean_arr(char ***argv)
 	i = 0;
 	j = 0;
 	if (!(*argv)[i])
+	{
+		if (*argv)
+			free(*argv);
 		return ;
+	}
 	while ((*argv)[i])
 		i++;
 	while (j < i)
