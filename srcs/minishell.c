@@ -12,43 +12,53 @@
 
 #include "minishell.h"
 
-void	create_env(t_info *info)
+char	***divide_commands(char **commands)
 {
-	extern char		**environ;
-	char			**tmp;
-	int				i;
+	char		***d_comm;
+	int			i;
 
 	i = 0;
-	info->env = NULL;
-	while (environ[i])
+	while (commands[i])
+		++i;
+	d_comm = (char ***)malloc(sizeof(char **) * (i + 1));
+	i = 0;
+	while (commands[i])
 	{
-		tmp = ft_strsplit(environ[i], '=');
-		info->env = ft_env_add_back(info->env, tmp[0], tmp[1]);
-		ft_clean_arr(&tmp);
+		d_comm[i] = ft_strsplit(commands[i], ' ');
 		++i;
 	}
-	info->old_pwd = ft_strdup(find_in_env("OLDPWD", info));
-	info->pwd = ft_strdup(find_in_env("PWD", info));
+	d_comm[i] = NULL;
+	ft_clean_arr(&commands);
+	return (d_comm);
 }
 
-void	main_while_loop(void)
+void	clean_all_commands(char ****comm)
+{
+	int i;
+
+	i = 0;
+	while ((*comm)[i])
+	{
+		ft_clean_arr(&(*comm)[i]);
+		i++;
+	}
+	free(*comm);
+}
+
+void	main_while_loop(t_info info)
 {
 	char			*line;
 	char			**commands;
-	t_info			info;
+	char			***d_comm;
 
-	ft_bzero(&info, sizeof(t_info *));
-	create_env(&info);
-	// rl_bind_key('\t', rl_complete);
+	rl_bind_key('\t', rl_complete);
 	while (1)
 	{
 		commands = NULL;
-		ft_printf("%s$> %s", CBLUE, CWHITE);
-		get_next_line(0, &line);
-		// line = readline(CBLUE"$> " CWHITE);
-		// if (!line)
-			// break ;
-		// add_history(line);
+		line = readline(CBLUE"$> " CWHITE);
+		if (!line)
+			break ;
+		add_history(line);
 		if (ft_strstr(line, ";;") == NULL)
 			commands = ft_strsplit(line, ';');
 		else
@@ -57,14 +67,20 @@ void	main_while_loop(void)
 			continue ;
 		}
 		commands = cleaning_matrix(&commands);
-		compare_to_commands(commands, &info);
+		d_comm = divide_commands(commands);
+		compare_to_commands(d_comm, &info);
+		clean_all_commands(&d_comm);
 		free(line);
 	}
 }
 
 int		main(void)
 {
+	t_info			info;
+
+	ft_bzero(&info, sizeof(t_info *));
+	create_env(&info);
 	ft_printf("%s", CLEAN);
-	main_while_loop();
+	main_while_loop(info);
 	return (0);
 }

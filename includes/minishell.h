@@ -29,7 +29,7 @@ typedef struct		s_list
 char									**cleaning_matrix(char ***commands);
 void									print_env(t_info *info);
 int										check_if_empty(char *str);
-void									compare_to_commands(char **commands,\
+void									compare_to_commands(char ***d_comm,\
 	t_info *info);
 t_env									*ft_env_remove_by_key(t_env *list, char *key);
 t_env									*ft_env_add_back(t_env\
@@ -41,10 +41,8 @@ t_list								*ft_list_add_back(t_list *list, char *dir);
 void									ft_list_remove_back(t_list **list);
 void									env_manage(char **var, t_info *info);
 void									ft_list_clean(t_list **list);
-
-//ERROR MANAGMENT
-void            	    error_permissions(char *command, char *file);
-void                    error_arguments(char *command);
-void                    error_no_command(char *command);
+void									create_env(t_info *info);
+char									**move_list_into_array(t_env *env);
+char									***find_tild(char ***commands, t_info *info);
 
 #endif

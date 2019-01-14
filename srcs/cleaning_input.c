@@ -1,6 +1,6 @@
 # include "minishell.h"
 
-int		find_real_lenth(char *s)
+int		find_real_length(char *s)
 {
 	int len;
 
@@ -22,7 +22,7 @@ char	*cleaning_string(char *s)
 	k = 0;
 	while (s[i] == ' ' || s[i] == '\t')
 		i++;
-	len = find_real_lenth(s);
+	len = find_real_length(s);
 	ret = ft_strnew(4096);
 	while (i <= len)
 	{
@@ -56,18 +56,4 @@ char	**cleaning_matrix(char ***commands)
 	arr[i] = NULL;
 	ft_clean_arr(commands);
 	return (arr);
-}
-
-int			check_if_empty(char *str)
-{
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] > ' ')
-			return (0);
-		++i;
-	}
-	return (1);
 }
