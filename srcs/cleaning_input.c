@@ -23,7 +23,7 @@ char	*cleaning_string(char *s)
 	while (s[i] == ' ' || s[i] == '\t')
 		i++;
 	len = find_real_lenth(s);
-	ret = (char*)malloc(sizeof(char) * (len + 1));
+	ret = ft_strnew(4096);
 	while (i <= len)
 	{
 		if (s[i] == ' ')
@@ -53,7 +53,7 @@ char	**cleaning_matrix(char ***commands)
 	i = -1;
 	while (++i < length)
 		arr[i] = cleaning_string((*commands)[i]);
-    arr[i] = NULL;
+	arr[i] = NULL;
 	ft_clean_arr(commands);
 	return (arr);
 }

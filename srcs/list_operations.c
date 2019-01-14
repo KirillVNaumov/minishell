@@ -17,6 +17,18 @@ int		ft_list_size(t_list *root)
 	return (i);
 }
 
+void	ft_list_clean(t_list **list)
+{
+	t_list *node;
+
+	if (*list == NULL || list == NULL)
+		return ;
+	node = *list;
+	if (node && node->next)
+		ft_list_clean(&node->next);
+	ft_memdel((void**)list);
+}
+
 t_list			*ft_list_add_back(t_list *list, char *dir)
 {
 	t_list		*begining;

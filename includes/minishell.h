@@ -40,6 +40,7 @@ char									*find_in_env(char *find, t_info *info);
 t_list								*ft_list_add_back(t_list *list, char *dir);
 void									ft_list_remove_back(t_list **list);
 void									env_manage(char **var, t_info *info);
+void									ft_list_clean(t_list **list);
 
 //ERROR MANAGMENT
 void            	    error_permissions(char *command, char *file);

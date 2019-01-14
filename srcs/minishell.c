@@ -6,7 +6,7 @@
 /*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/11/26 13:07:42 by amelikia          #+#    #+#             */
-/*   Updated: 2019/01/10 17:22:05 by amelikia         ###   ########.fr       */
+/*   Updated: 2019/01/11 15:52:28 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	main_while_loop(void)
 		}
 		commands = cleaning_matrix(&commands);
 		compare_to_commands(commands, &info);
-		ft_clean_arr(&commands);
 		free(line);
 	}
 }

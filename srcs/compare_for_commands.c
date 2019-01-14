@@ -31,6 +31,7 @@ char	***divide_commands(char **commands)
 		++i;
 	}
 	d_comm[i] = NULL;
+	ft_clean_arr(&commands);
 	return (d_comm);
 }
 
@@ -125,8 +126,8 @@ char	***find_tild(char ***commands, t_info *info)
 			if (commands[i][j][0] == '~')
 			{
 				home = find_in_env("HOME", info);
-				commands[i][j] = ft_strjoin(home\
-				, &commands[i][j][1]);
+				commands[i][j] = ft_update(commands[i][j], ft_strjoin(home\
+				, &commands[i][j][1]));
 			}
 			j++;
 		}
