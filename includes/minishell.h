@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/01/15 13:51:19 by amelikia          #+#    #+#             */
-/*   Updated: 2019/01/15 13:51:20 by amelikia         ###   ########.fr       */
+/*   Created: 2019/01/15 14:23:11 by knaumov           #+#    #+#             */
+/*   Updated: 2019/01/15 14:23:14 by knaumov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+
+# define BLUE  "\033[1;34m"
+# define WHITE  "\x1B[39m"
 
 typedef struct		s_env
 {

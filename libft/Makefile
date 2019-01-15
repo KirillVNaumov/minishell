@@ -3,59 +3,18 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+         #
+#    By: knaumov <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2018/09/10 22:17:06 by amelikia          #+#    #+#              #
-#    Updated: 2018/12/04 15:00:00 by amelikia         ###   ########.fr        #
+#    Created: 2018/09/10 09:50:35 by knaumov           #+#    #+#              #
+#    Updated: 2019/01/10 12:29:01 by knaumov          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libft.a
-CFLAGS = -Wall -Werror -Wextra
-HEADER = libft.h
-
-PRINTF_CFILES = ft_printf.c \
-								src/ft_itoa_intmax.c \
-								src/ft_itoa_base_unsigned.c \
-								src/ft_itoa_unsigned.c \
-								src/conversion_b_p.c \
-								src/conversion_c_s.c \
-								src/conversion_num.c \
-								src/conversion_o_x.c \
-								src/fn_struct.c \
-								src/ftprintf_helper.c \
-								src/minus_plus_space.c \
-								src/parse_data.c \
-								src/parse_format.c \
-								src/parse_type.c \
-								src/parse_w_and_a.c \
-								src/precision.c \
-								src/type_define.c \
-								src/wide_s.c \
-								src/width.c \
-
-PRINTF_OFILES = ft_printf.o \
-								ft_itoa_intmax.o \
-								ft_itoa_base_unsigned.o \
-								ft_itoa_unsigned.o \
-								conversion_b_p.o \
-								conversion_c_s.o \
-								conversion_num.o \
-								conversion_o_x.o \
-								fn_struct.o\
-								ftprintf_helper.o \
-								minus_plus_space.o \
-								parse_data.o \
-								parse_format.o \
-								parse_type.o \
-								parse_w_and_a.o \
-								precision.o \
-								type_define.o \
-								wide_s.o \
-								width.o \
-
-CFILES = ./ft_atoi.c \
+FILES = ./ft_atoi.c \
 		./ft_bzero.c \
+		./ft_memdel_arlen.c \
+		./ft_isspace.c \
 		./ft_isalnum.c \
 		./ft_isalpha.c \
 		./ft_isascii.c \
@@ -79,6 +38,7 @@ CFILES = ./ft_atoi.c \
 		./ft_putstr.c \
 		./ft_putstr_fd.c \
 		./ft_strcat.c \
+		./ft_strsch.c \
 		./ft_strchr.c \
 		./ft_strclr.c \
 		./ft_strcmp.c \
@@ -106,100 +66,84 @@ CFILES = ./ft_atoi.c \
 		./ft_strtrim.c \
 		./ft_tolower.c \
 		./ft_toupper.c \
-		./ft_makestr.c \
 		./ft_itoa_base.c \
-		./ft_abs.c \
 		./get_next_line.c \
-		./b_printf.c \
-		./ft_sizeofint.c \
+		./ft_putunsignedint.c \
 		./ft_strccrt.c \
-		./ft_update.c \
-		./ft_strchrfill.c \
 		./ft_bchar.c \
+		./ft_update.c \
 		./ft_strtoupper.c \
+		./ft_strtolower.c \
+		./ft_putwchar.c \
+		./ft_putwchar_fd.c \
+		./ft_putwstr.c \
+		./ft_putwstr_fd.c \
+		./ft_wstrlen.c \
+		./ft_wstrdup.c \
+		./ft_wchrlen.c \
+		./ft_strcon.c \
 		./ft_clean_arr.c \
 		./ft_create_arr.c \
 		./ft_clean_int_arr.c \
+		./adding_minus.c \
+		./adding_plus.c \
+		./adding_precision_number.c \
+		./adding_precision_string.c \
+		./adding_space.c \
+		./adding_width.c \
+		./adding_width_null_char.c \
+		./conversion_b.c \
+		./conversion_c.c \
+		./conversion_d_i.c \
+		./conversion_o_cap_o.c \
+		./conversion_p.c \
+		./conversion_s.c \
+		./conversion_u_cap_d_cap_u.c \
+		./conversion_wide_c.c \
+		./conversion_wide_s.c \
+		./conversion_x_cap_x.c \
+		./conversions.c \
+		./ft_itoa_base_unsigned.c \
+		./ft_itoa_intmax.c \
+		./ft_itoa_unsigned.c \
+		./ft_printf.c \
+		./handle_flags.c \
+		./handle_format.c \
+		./handle_precision.c \
+		./handle_width.c \
+		./parse_flags.c \
+		./printing_wide_string.c
 
-OFILES =   ./ft_atoi.o \
-		./ft_bzero.o \
-		./ft_isalnum.o \
-		./ft_isalpha.o \
-		./ft_isascii.o \
-		./ft_isdigit.o \
-		./ft_isprint.o \
-		./ft_itoa.o \
-		./ft_memalloc.o \
-		./ft_memccpy.o \
-		./ft_memchr.o \
-		./ft_memcmp.o \
-		./ft_memcpy.o\
-		./ft_memdel.o \
-		./ft_memmove.o \
-		./ft_memset.o \
-		./ft_putchar.o \
-		./ft_putchar_fd.o \
-		./ft_putendl.o \
-		./ft_putendl_fd.o \
-		./ft_putnbr.o \
-		./ft_putnbr_fd.o \
-		./ft_putstr.o \
-		./ft_putstr_fd.o \
-		./ft_strcat.o \
-		./ft_strchr.o \
-		./ft_strclr.o \
-		./ft_strcmp.o \
-		./ft_strcpy.o \
-		./ft_strdel.o \
-		./ft_strdup.o \
-		./ft_strequ.o \
-		./ft_striter.o \
-		./ft_striteri.o \
-		./ft_strjoin.o \
-		./ft_strlcat.o \
-		./ft_strlen.o \
-		./ft_strmap.o \
-		./ft_strmapi.o \
-		./ft_strncat.o \
-		./ft_strncmp.o \
-		./ft_strncpy.o \
-		./ft_strnequ.o \
-		./ft_strnew.o \
-		./ft_strnstr.o \
-		./ft_strrchr.o \
-		./ft_strsplit.o \
-		./ft_strstr.o \
-		./ft_strsub.o \
-		./ft_strtrim.o \
-		./ft_tolower.o \
-		./ft_toupper.o \
-		./ft_makestr.o \
-		./ft_itoa_base.o \
-		./ft_abs.o \
-		./get_next_line.o \
-		./b_printf.o \
-		./ft_sizeofint.o \
-		./ft_strccrt.o \
-		./ft_update.o \
-		./ft_strchrfill.o \
-		./ft_bchar.o \
-		./ft_strtoupper.o \
-		./ft_clean_arr.o \
-		./ft_create_arr.o \
-		./ft_clean_int_arr.o \
+OBJ =   $(FILES:.c=.o)
+
+RESET = \033[0m
+RED = \033[0;31m
+GREEN = \033[0;32m
+BLUE = \033[0;36m
+RED_EXTRA = \033[1;31m
+GREEN_EXTRA = \033[1;32m
+BLUE_EXTRA = \033[1;36m
+
+%.o : %.c
+	@echo "$(GREEN) 	- Creating $(GREEN_EXTRA)$< $(GREEN)for $(GREEN_EXTRA)Libft..."
+	@gcc -g -Wall -Werror -Wextra -o $@ -c $<
 
 all: $(NAME)
 
-$(NAME):
-	gcc $(CFLAGS) -I$(HEADER) -c $(CFILES) $(PRINTF_CFILES)
-	ar rc $(NAME) $(OFILES) $(PRINTF_OFILES)
-	ranlib $(NAME)
+$(NAME): $(OBJ)
+	@echo "$(GREEN_EXTRA)   Libft: $(GREEN)Compiling $(GREEN_EXTRA)libft.a$(RESET)"
+	@ar rc $(NAME) $(OBJ)
+	@ranlib $(NAME)
+	@echo "$(BLUE_EXTRA)   Libft: $(NAME)$(BLUE): Complete$(RESET)"
 
 clean:
-	/bin/rm -f $(OFILES)
-	/bin/rm -f $(PRINTF_OFILES)
+	@if [ -a "./ft_atoi.o" ]; then echo "$(RED_EXTRA)   Libft: $(RED)Deleting objects for $(RED_EXTRA)libft.a$(RESET)"; fi
+	@if [ -a "./ft_atoi.o" ]; then /bin/rm -f $(OBJ); fi
+	@echo "$(BLUE_EXTRA)   Libft: clean$(BLUE): Complete$(RESET)"
 
 fclean: clean
-	/bin/rm -f $(NAME)
+	@if [ -a "$(NAME)" ]; then echo "$(RED_EXTRA)   Libft: $(RED)Deleting $(RED_EXTRA)libft.a$(RESET)"; fi
+	@if [ -a "$(NAME)" ]; then /bin/rm -f $(NAME); fi
+	@echo "$(BLUE_EXTRA)   Libft: fclean$(BLUE): Complete$(RESET)"
 
-re: fclean all
+re:	fclean all

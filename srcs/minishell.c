@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
+/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/11/26 13:07:42 by amelikia          #+#    #+#             */
-/*   Updated: 2019/01/15 13:51:08 by amelikia         ###   ########.fr       */
+/*   Created: 2019/01/15 14:29:36 by knaumov           #+#    #+#             */
+/*   Updated: 2019/01/15 14:29:37 by knaumov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	main_while_loop(t_info info)
 	while (1)
 	{
 		commands = NULL;
-		line = readline(CBLUE"$> " CWHITE);
+		line = readline(BLUE"$> " WHITE);
 		if (!line)
 			break ;
 		add_history(line);
