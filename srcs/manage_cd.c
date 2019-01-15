@@ -45,28 +45,32 @@ char		*new_pwd(char *old_pwd, char *address)
 	return (str);
 }
 
-void    change_pwd(char *address, t_info *info)
+void	change_pwd(char *address, t_info *info)
 {
 	free(info->old_pwd);
 	info->old_pwd = ft_strdup(info->pwd);
 	info->pwd = new_pwd(info->pwd, address);
 }
 
+void	argv_null(char *address, t_info *info)
+{
+	char *home;
+
+	home = find_in_env("HOME", info);
+	address = ft_update(address, ft_strdup(home));
+	info->old_pwd = ft_strdup(info->pwd);
+	info->pwd = ft_update(info->pwd, ft_strdup(home));
+	chdir(address);
+	ft_strdel(&address);
+}
+
 void	go_to_cd(char **argv, t_info *info)
 {
-	char	*home;
 	char	*address;
 
 	address = ft_strnew(1);
 	if (argv[1] == NULL || (argv[1] && !ft_strcmp(argv[1], "--")))
-	{
-		home = find_in_env("HOME", info);
-		address = ft_update(address, ft_strdup(home));
-		info->old_pwd = ft_strdup(info->pwd);
-		info->pwd = home;
-		chdir(address);
-		free(address);
-	}
+		argv_null(address, info);
 	else if (argv[1] && argv[1][0] == '-' && ft_strlen(argv[1]) == 1)
 	{
 		address = ft_update(address, ft_strdup(info->old_pwd));

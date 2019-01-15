@@ -25,7 +25,7 @@ char	***find_tild(char ***commands, t_info *info)
 	return (commands);
 }
 
-int			check_if_empty(char *str)
+int		check_if_empty(char *str)
 {
 	int		i;
 

@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		ft_env_size(t_env *root)
+int			ft_env_size(t_env *root)
 {
 	int		i;
 	t_env	*entity;
@@ -17,7 +17,15 @@ int		ft_env_size(t_env *root)
 	return (i);
 }
 
-t_env			*ft_env_add_back(t_env *list, char *s1, char *s2)
+void		assign_value(t_env *list, char *s2)
+{
+	if (s2)
+		list->val = ft_strdup(s2);
+	else
+		list->val = ft_strnew(1);
+}
+
+t_env		*ft_env_add_back(t_env *list, char *s1, char *s2)
 {
 	t_env		*begining;
 	t_env		*node;
@@ -26,10 +34,7 @@ t_env			*ft_env_add_back(t_env *list, char *s1, char *s2)
 	{
 		list = (t_env *)malloc(sizeof(t_env));
 		list->key = ft_strdup(s1);
-		if (s2)
-			list->val = ft_strdup(s2);
-		else
-			list->val = ft_strnew(1);
+		assign_value(list, s2);
 		list->next = NULL;
 		return (list);
 	}
@@ -37,17 +42,21 @@ t_env			*ft_env_add_back(t_env *list, char *s1, char *s2)
 	begining = list;
 	node->next = NULL;
 	node->key = ft_strdup(s1);
-	if (s2)
-		node->val = ft_strdup(s2);
-	else
-		node->val = ft_strnew(1);
+	assign_value(node, s2);
 	while (list->next)
 		list = list->next;
 	list->next = node;
 	return (begining);
 }
 
-t_env			*ft_env_remove_by_key(t_env *list, char *key)
+void		free_node(t_env *list)
+{
+	free(list->key);
+	free(list->val);
+	free(list);
+}
+
+t_env		*ft_env_remove_by_key(t_env *list, char *key)
 {
 	t_env		*head;
 	t_env		*tmp;
@@ -56,9 +65,7 @@ t_env			*ft_env_remove_by_key(t_env *list, char *key)
 	if (!ft_strcmp(list->key, key))
 	{
 		tmp = list->next;
-		free(list->key);
-		free(list->val);
-		free(list);
+		free_node(list);
 		return (tmp);
 	}
 	while (list && list->next && ft_strcmp(list->next->key, key))
@@ -67,17 +74,13 @@ t_env			*ft_env_remove_by_key(t_env *list, char *key)
 	{
 		tmp = list->next;
 		list->next = list->next->next;
-		free(tmp->key);
-		free(tmp->val);
-		free(tmp);
+		free_node(tmp);
 	}
 	else if (list && !ft_strcmp(list->key, key))
 	{
 		tmp = list;
 		list->next = NULL;
-		free(tmp->key);
-		free(tmp->val);
-		free(tmp);
+		free_node(tmp);
 	}
 	return (head);
 }
