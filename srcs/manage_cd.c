@@ -1,19 +1,30 @@
 #include "minishell.h"
 
-char		*new_pwd(char *old_pwd, char *address)
+char	*create_return_val(t_list *pwd)
 {
-	char	**arr;
 	char	*str;
-	int		i;
-	t_list	*pwd;
 	t_list	*tmp;
 
-	if (address && address[0] == '/')
-		old_pwd = ft_update(old_pwd, ft_strnew(1));
+	str = ft_strnew(1);
+	if (!pwd)
+		str = ft_update(str, ft_strjoin(str, "/"));
+	tmp = pwd;
+	while (pwd)
+	{
+		str = ft_update(str, ft_strjoin(str, "/"));
+		str = ft_update(str, ft_strjoin(str, pwd->dir));
+		pwd = pwd->next;
+	}
+	ft_list_clean(&tmp);
+	return (str);
+}
+
+t_list	*remove_extra_path(t_list *pwd, char *address)
+{
+	char	**arr;
+	int		i;
+
 	i = 0;
-	pwd = NULL;
-	address = ft_update(address, ft_strjoin("/", address));
-	address = ft_update(address, ft_strjoin(&old_pwd[1], address));
 	arr = ft_strsplit(address, '/');
 	while (arr[i])
 	{
@@ -28,28 +39,27 @@ char		*new_pwd(char *old_pwd, char *address)
 			pwd = ft_list_add_back(pwd, arr[i]);
 		i++;
 	}
-	str = ft_strnew(1);
-	if (!pwd)
-		str = ft_update(str, ft_strjoin(str, "/"));
-	tmp = pwd;
-	while (pwd)
-	{
-		str = ft_update(str, ft_strjoin(str, "/"));
-		str = ft_update(str, ft_strjoin(str, pwd->dir));
-		pwd = pwd->next;
-	}
-	ft_strdel(&old_pwd);
 	ft_clean_arr(&arr);
-	ft_list_clean(&tmp);
-	free(address);
-	return (str);
+	return (pwd);
 }
 
-void	change_pwd(char *address, t_info *info)
+char	*new_pwd(char *old_pwd, char *address)
 {
-	free(info->old_pwd);
-	info->old_pwd = ft_strdup(info->pwd);
-	info->pwd = new_pwd(info->pwd, address);
+	char	*str;
+	int		i;
+	t_list	*pwd;
+
+	if (address && address[0] == '/')
+		old_pwd = ft_update(old_pwd, ft_strnew(1));
+	i = 0;
+	pwd = NULL;
+	address = ft_update(address, ft_strjoin("/", address));
+	address = ft_update(address, ft_strjoin(&old_pwd[1], address));
+	pwd = remove_extra_path(pwd, address);
+	str = create_return_val(pwd);
+	ft_strdel(&old_pwd);
+	free(address);
+	return (str);
 }
 
 void	argv_null(char *address, t_info *info)

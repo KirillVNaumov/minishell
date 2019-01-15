@@ -25,6 +25,13 @@ char	***find_tild(char ***commands, t_info *info)
 	return (commands);
 }
 
+void	change_pwd(char *address, t_info *info)
+{
+	free(info->old_pwd);
+	info->old_pwd = ft_strdup(info->pwd);
+	info->pwd = new_pwd(info->pwd, address);
+}
+
 int		check_if_empty(char *str)
 {
 	int		i;
