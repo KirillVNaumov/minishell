@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/05 22:25:21 by knaumov           #+#    #+#             */
-/*   Updated: 2018/12/05 22:25:23 by knaumov          ###   ########.fr       */
+/*   Created: 2018/10/12 13:54:14 by amelikia          #+#    #+#             */
+/*   Updated: 2018/12/04 14:15:12 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		read_from_fd_into_stock(int const fd, char **stock)
 {
-	static char	buff[BUFF_SIZE + 1] = { '\n' };
+	static char	buff[BUFF_SIZE + 1] = { ENDL };
 	int			read_bytes;
 	char		*nstr;
 
@@ -39,7 +39,7 @@ int		get_next_line(int const fd, char **line)
 
 	if (!stock && (stock = (char *)ft_memalloc(sizeof(char))) == NULL)
 		return (-1);
-	endl_index = ft_strchr(stock, '\n');
+	endl_index = ft_strchr(stock, ENDL);
 	while (endl_index == NULL)
 	{
 		ret = read_from_fd_into_stock(fd, &stock);
@@ -51,7 +51,7 @@ int		get_next_line(int const fd, char **line)
 		else if (ret < 0)
 			return (-1);
 		else
-			endl_index = ft_strchr(stock, '\n');
+			endl_index = ft_strchr(stock, ENDL);
 	}
 	*line = ft_strsub(stock, 0, endl_index - stock);
 	if (!*line)

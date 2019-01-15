@@ -3,63 +3,58 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/10/31 19:42:21 by knaumov           #+#    #+#             */
-/*   Updated: 2018/11/01 14:19:08 by knaumov          ###   ########.fr       */
+/*   Created: 2018/10/24 21:29:31 by amelikia          #+#    #+#             */
+/*   Updated: 2018/10/31 22:36:13 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
+#include "header.h"
 
-int						final_print(const char *format, char *str)
+void	because_str(const char *s, int i)
 {
-	int					length;
+	char	*str;
 
-	str = ft_update(str, ft_strjoin(str, format));
-	write(1, str, ft_strlen(str));
-	length = ft_strlen(str);
+	str = ft_makestr(s[i]);
+	g_word = ft_update(g_word, ft_strjoin(g_word, str));
 	free(str);
-	return (length);
 }
 
-int						narrow_ft_printf(const char *format, va_list *arg, \
-		char *str)
+void	start_printf(va_list arg, const char *s)
 {
-	t_flags_ft_printf	flags;
-	char				*next;
-	char				*tmp;
-	static int			length;
+	int		i;
 
-	if (!length)
-		length = 0;
-	next = ft_strchr(format, '%');
-	if (next == NULL)
-		return (length + final_print(format, str));
-	tmp = ft_strccrt(format, '%');
-	str = ft_update(str, ft_strjoin(str, tmp));
-	free(tmp);
-	++next;
-	ft_bzero(&flags, sizeof(t_flags_ft_printf));
-	parse_flags(&next, &flags, arg);
-	tmp = conversions(&flags, arg, &length, &str);
-	str = ft_update(str, ft_strjoin(str, tmp));
-	++next;
-	free(tmp);
-	free(flags.format);
-	return (narrow_ft_printf(next, arg, str));
+	i = 0;
+	g_word = ft_strnew(1);
+	while (s[i] != '\0')
+	{
+		while (s[i] != '%' && s[i] != '\0')
+		{
+			because_str(s, i);
+			i++;
+		}
+		if (s[i] == '%' && s[i] != '\0')
+		{
+			if (s[i + 1] != '\0')
+				i++;
+			after_percentage_checker(arg, s, &i);
+		}
+	}
 }
 
-int						ft_printf(const char *format, ...)
+int		ft_printf(const char *restrict format, ...)
 {
-	int					length;
-	char				*str;
-	va_list				arg;
+	int		number_of_char;
+	va_list	arg;
 
-	length = 0;
-	str = ft_strnew(1);
+	g_ohno = 0;
 	va_start(arg, format);
-	length = narrow_ft_printf(format, &arg, str);
+	start_printf(arg, format);
+	number_of_char = ft_strlen(g_word);
+	write(1, g_word, number_of_char);
 	va_end(arg);
-	return (length);
+	if (g_word != NULL)
+		ft_strdel(&g_word);
+	return (number_of_char + g_ohno);
 }

@@ -3,30 +3,30 @@
 /*                                                        :::      ::::::::   */
 /*   ft_clean_int_arr.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2018/12/05 21:56:18 by knaumov           #+#    #+#             */
-/*   Updated: 2018/12/05 21:58:57 by knaumov          ###   ########.fr       */
+/*   Created: 2018/12/04 14:58:24 by amelikia          #+#    #+#             */
+/*   Updated: 2018/12/04 14:58:36 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_clean_int_arr(int ***arr)
+void	ft_clean_int_arr(int ***map)
 {
 	int i;
 	int j;
 
 	i = 0;
 	j = 0;
-	if (!(arr)[i])
+	if (!(map)[i])
 		return ;
-	while ((*arr)[i])
+	while ((*map)[i])
 		i++;
 	while (j < i)
 	{
-		free((*arr)[j]);
+		free((*map)[j]);
 		j++;
 	}
-	free(*arr);
+	free(*map);
 }

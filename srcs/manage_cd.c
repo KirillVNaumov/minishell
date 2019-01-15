@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   manage_cd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amelikia <amelikia@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/01/15 13:51:04 by amelikia          #+#    #+#             */
+/*   Updated: 2019/01/15 14:10:44 by amelikia         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 char	*create_return_val(t_list *pwd)
@@ -96,5 +108,8 @@ void	go_to_cd(char **argv, t_info *info)
 		change_pwd(address, info);
 	}
 	else
+	{
+		free(address);
 		ft_printf("minishell: No such file or directory\n");
+	}
 }
