@@ -6,7 +6,7 @@
 /*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:28:24 by knaumov           #+#    #+#             */
-/*   Updated: 2019/01/16 11:48:59 by amelikia         ###   ########.fr       */
+/*   Updated: 2019/01/16 13:43:03 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,17 @@ int			find_command(char **args, t_info *info)
 	return (-1);
 }
 
+void		find_command_in_dirs(char ***d_comm, int i, t_info *info)
+{
+	if (access(d_comm[i][0], F_OK) != -1)
+		print_command(d_comm[i][0], d_comm[i], NULL);
+	else if (find_command(d_comm[i], info) == -1)
+		ft_printf("minishell: command not found %s\n", d_comm[i][0]);
+}
+
 void		search_through_commands(char ***d_comm, t_info *info, int i)
 {
+	manage_dollar(d_comm[i], info);
 	if (!ft_strcmp(d_comm[i][0], "exit"))
 	{
 		ft_printf("%s", CLEAN);
@@ -93,12 +102,7 @@ void		search_through_commands(char ***d_comm, t_info *info, int i)
 		!ft_strcmp(d_comm[i][0], "unsetenv"))
 		env_manage(d_comm[i], info);
 	else
-	{
-		if (access(d_comm[i][0], F_OK) != -1)
-			print_command(d_comm[i][0], d_comm[i], NULL);
-		else if (find_command(d_comm[i], info) == -1)
-			ft_printf("minishell: command not found %s\n", d_comm[i][0]);
-	}
+		find_command_in_dirs(d_comm, i, info);
 }
 
 void		compare_to_commands(char ***d_comm, t_info *info)
