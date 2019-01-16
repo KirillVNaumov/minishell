@@ -37,7 +37,7 @@ typedef struct		s_info
 
 typedef struct		s_list
 {
-	char			*dir;
+	char			*name;
 	struct s_list	*next;
 }					t_list;
 
@@ -66,5 +66,7 @@ char				*new_pwd(char *old_pwd, char *address);
 void				initialize_readline(void);
 void				clean_all_commands(char ****comm);
 void				manage_dollar(char **args, t_info *info);
+char        		***parse_with_args(char **args);
+int		ft_list_size(t_list *root);
 
 #endif

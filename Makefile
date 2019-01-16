@@ -12,7 +12,7 @@
 
 INCLUDES = -Iincludes -Ilibft
 
-SRCS =	srcs/minishell.c srcs/cleaning_input.c srcs/utils.c\
+SRCS =	srcs/minishell.c srcs/cleaning_input.c srcs/utils.c srcs/parse_quotes.c\
 		srcs/compare_for_commands.c srcs/everything_related_to_env_1.c\
 		srcs/manage_cd.c srcs/list_struct_operations.c srcs/env_struct_operations.c\
 		srcs/everything_related_to_env_2.c srcs/matches.c srcs/manage_dollar.c\

@@ -24,7 +24,7 @@ char	*create_return_val(t_list *pwd)
 	while (pwd)
 	{
 		str = ft_update(str, ft_strjoin(str, "/"));
-		str = ft_update(str, ft_strjoin(str, pwd->dir));
+		str = ft_update(str, ft_strjoin(str, pwd->name));
 		pwd = pwd->next;
 	}
 	ft_list_clean(&tmp);

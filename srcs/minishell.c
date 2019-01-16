@@ -68,7 +68,8 @@ void	main_while_loop(t_info info)
 			continue ;
 		}
 		commands = cleaning_matrix(&commands);
-		d_comm = divide_commands(commands);
+		d_comm = parse_with_args(commands);
+		// d_comm = divide_commands(commands);
 		compare_to_commands(d_comm, &info);
 		free(line);
 	}
