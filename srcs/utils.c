@@ -19,7 +19,7 @@ char	***find_tild(char ***commands, t_info *info)
 	int		j;
 
 	i = 0;
-	while (commands[i])
+	while (commands[i] && commands[i][0])
 	{
 		j = 1;
 		while (commands[i][j])

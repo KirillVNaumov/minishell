@@ -84,7 +84,7 @@ void		search_through_commands(char ***d_comm, t_info *info, int i)
 	}
 	else if (!ft_strcmp(d_comm[i][0], "clear"))
 		ft_printf("%s", CLEAN);
-	else if (!ft_strcmp(d_comm[i][0], "env"))
+	else if (!ft_strcmp(d_comm[i][0], "env") || !ft_strcmp(d_comm[i][0], "/usr/bin/env"))
 		print_env(info);
 	else if (!ft_strcmp(d_comm[i][0], "cd"))
 		go_to_cd(d_comm[i], info);
@@ -96,7 +96,7 @@ void		search_through_commands(char ***d_comm, t_info *info, int i)
 		if (access(d_comm[i][0], F_OK) != -1)
 			print_command(d_comm[i][0], d_comm[i], NULL);
 		else if (find_command(d_comm[i], info) == -1)
-			ft_printf("%s: command not found\n", d_comm[i][0]);
+			ft_printf("minishell: command not found %s\n", d_comm[i][0]);
 	}
 }
 
