@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   compare_for_commands.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:28:24 by knaumov           #+#    #+#             */
-/*   Updated: 2019/01/15 14:28:25 by knaumov          ###   ########.fr       */
+/*   Updated: 2019/01/16 11:48:59 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,8 @@ void		search_through_commands(char ***d_comm, t_info *info, int i)
 	}
 	else if (!ft_strcmp(d_comm[i][0], "clear"))
 		ft_printf("%s", CLEAN);
-	else if (!ft_strcmp(d_comm[i][0], "env") || !ft_strcmp(d_comm[i][0], "/usr/bin/env"))
+	else if (!ft_strcmp(d_comm[i][0], "env") \
+	|| !ft_strcmp(d_comm[i][0], "/usr/bin/env"))
 		print_env(info);
 	else if (!ft_strcmp(d_comm[i][0], "cd"))
 		go_to_cd(d_comm[i], info);
@@ -116,4 +117,5 @@ void		compare_to_commands(char ***d_comm, t_info *info)
 		search_through_commands(d_comm, info, i);
 		++i;
 	}
+	clean_all_commands(&d_comm);
 }

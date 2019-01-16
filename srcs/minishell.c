@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:29:36 by knaumov           #+#    #+#             */
-/*   Updated: 2019/01/15 14:29:37 by knaumov          ###   ########.fr       */
+/*   Updated: 2019/01/16 11:48:18 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ void	main_while_loop(t_info info)
 	while (1)
 	{
 		commands = NULL;
+		initialize_readline();
 		line = readline(BLUE"$> " WHITE);
 		if (!line)
 			break ;
@@ -69,7 +70,6 @@ void	main_while_loop(t_info info)
 		commands = cleaning_matrix(&commands);
 		d_comm = divide_commands(commands);
 		compare_to_commands(d_comm, &info);
-		clean_all_commands(&d_comm);
 		free(line);
 	}
 }

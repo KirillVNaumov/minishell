@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:23:11 by knaumov           #+#    #+#             */
-/*   Updated: 2019/01/15 14:23:14 by knaumov          ###   ########.fr       */
+/*   Updated: 2019/01/16 11:49:14 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,7 @@ char				***find_tild(char ***commands,\
 	t_info *info);
 void				change_pwd(char *address, t_info *info);
 char				*new_pwd(char *old_pwd, char *address);
+void				initialize_readline(void);
+void				clean_all_commands(char ****comm);
 
 #endif

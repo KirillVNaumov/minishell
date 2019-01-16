@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: knaumov <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/01/15 14:20:51 by knaumov           #+#    #+#              #
-#    Updated: 2019/01/15 14:20:58 by knaumov          ###   ########.fr        #
+#    Updated: 2019/01/16 11:40:23 by amelikia         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ INCLUDES = -Iincludes -Ilibft
 SRCS =	srcs/minishell.c srcs/cleaning_input.c srcs/utils.c\
 		srcs/compare_for_commands.c srcs/everything_related_to_env_1.c\
 		srcs/manage_cd.c srcs/list_struct_operations.c srcs/env_struct_operations.c\
-		srcs/everything_related_to_env_2.c
+		srcs/everything_related_to_env_2.c srcs/matches.c
 
 LIBFT = -L ./libft -lft
 
