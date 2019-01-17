@@ -6,7 +6,7 @@
 /*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:23:11 by knaumov           #+#    #+#             */
-/*   Updated: 2019/01/16 13:43:20 by amelikia         ###   ########.fr       */
+/*   Updated: 2019/01/16 17:47:43 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char				*new_pwd(char *old_pwd, char *address);
 void				initialize_readline(void);
 void				clean_all_commands(char ****comm);
 void				manage_dollar(char **args, t_info *info);
-char        		***parse_with_args(char **args);
-int		ft_list_size(t_list *root);
+char				***parse_with_args(char **args);
+int					ft_list_size(t_list *root);
 
 #endif
