@@ -6,7 +6,7 @@
 /*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:29:36 by knaumov           #+#    #+#             */
-/*   Updated: 2019/01/16 11:48:18 by amelikia         ###   ########.fr       */
+/*   Updated: 2019/01/16 16:17:45 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,20 @@ void	clean_all_commands(char ****comm)
 		i++;
 	}
 	free(*comm);
+}
+
+void 	print_comm(char ***d_comm, t_info *info)
+{
+	info = NULL;
+	int i = 0;
+	int j;
+	while (d_comm[i])
+	{
+		j = 0;
+		while (d_comm[i][j])
+			ft_printf("%s\n", d_comm[i][j++]);
+		i++;
+	}
 }
 
 void	main_while_loop(t_info info)

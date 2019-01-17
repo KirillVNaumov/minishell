@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cleaning_input.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:28:15 by knaumov           #+#    #+#             */
-/*   Updated: 2019/01/15 14:28:17 by knaumov          ###   ########.fr       */
+/*   Updated: 2019/01/16 15:49:44 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*cleaning_string(char *s)
 	while (s[i] == ' ' || s[i] == '\t')
 		i++;
 	len = find_real_length(s);
-	ret = ft_strnew(4096);
+	ret = (char*)malloc(sizeof(char*) * 4096);
 	while (i <= len)
 	{
 		if (s[i] == ' ')
