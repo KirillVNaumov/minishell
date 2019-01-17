@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   everything_related_to_env_2.c                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: knaumov <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: knaumov <knaumov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/01/15 14:28:46 by knaumov           #+#    #+#             */
-/*   Updated: 2019/01/15 14:28:47 by knaumov          ###   ########.fr       */
+/*   Updated: 2019/01/16 20:22:25 by amelikia         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char	*find_in_env(char *find, t_info *info)
 		tmp = tmp->next;
 	if (tmp)
 		return (tmp->val);
-	return (NULL);
+	return (find);
 }
 
 char	**move_list_into_array(t_env *env)
